@@ -1,0 +1,10 @@
+.text-field {
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 0; /* Disables only the bottom border */
+    /* -fx-border-radius: 5px; */
+}
+
+.text-field:hover, .text-field:focus {
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 0; /* Disables the bottom border */
+}

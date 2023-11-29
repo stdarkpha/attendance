@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="932.0" prefWidth="430.0" style="-fx-background-color: #F2F5FA;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="83.0" prefWidth="430.0" spacing="20.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@avatar.png" />
+                           </image>
+                        </ImageView>
+                        <VBox alignment="CENTER_LEFT" fillWidth="false" prefHeight="43.0" prefWidth="171.0" spacing="3.0">
+                           <children>
+                              <Text fx:id="greetingText" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Roboto Medium" size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="dateToday" fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="Roboto Light" size="10.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@logout.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <Text fx:id="clockText" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00">
+                           <font>
+                              <Font name="Roboto Black" size="81.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="secondText" fill="#3b415a" layoutX="194.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+                           <HBox.margin>
+                              <Insets bottom="15.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="Roboto Black" size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <Text fx:id="textLate" fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0" text="Silahkan Absen Sebelum Jam Masuk" />
+                        <Text fx:id="timeLate" fill="#001ab1" strokeType="OUTSIDE" strokeWidth="0.0" text="(08.00 AM)">
+                           <font>
+                              <Font name="Roboto Medium" size="12.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="105.0" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #396AFC; -fx-background-radius: 50px;" text="Absen Masuk" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Medium" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="8.0" left="24.0" right="24.0" top="8.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding></VBox>
+   </children>
+</AnchorPane>

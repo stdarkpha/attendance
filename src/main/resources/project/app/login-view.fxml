@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="932.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox prefHeight="932.0" prefWidth="430.0" spacing="30.0" style="-fx-background-color: F2F5FA;">
+      <padding>
+         <Insets bottom="40.0" left="30.0" right="30.0" top="40.0" />
+      </padding>
+      <VBox alignment="CENTER" prefHeight="249.0" prefWidth="430.0">
+         <ImageView fitHeight="303.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@login.png" />
+         </ImageView>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="40.0" layoutY="50.0" prefHeight="43.0" prefWidth="370.0" spacing="5.0">
+         <Text fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Selamat Datang..!">
+            <font>
+               <Font name="Roboto Bold" size="24.0" />
+            </font>
+         </Text>
+         <TextFlow lineSpacing="5.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
+            <Text fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0" text="Silahkan masuk untuk memulai absen dan memasukkan aktifitas harianmu.">
+               <font>
+                  <Font name="Roboto Reguler" size="14.0" />
+               </font>
+            </Text>
+         </TextFlow>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="40.0" layoutY="329.0" prefHeight="199.0" prefWidth="370.0" spacing="15.0">
+         <VBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="370.0">
+            <Label style="-fx-text-fill: #3B415A;" text="ID Pegawai:" textFill="#3b415a">
+               <font>
+                  <Font name="Roboto Reguler" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="usernameField" style="-fx-background-color: fff;" stylesheets="@style.css">
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </TextField>
+         </VBox>
+         <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="43.0" prefWidth="370.0">
+            <Label style="-fx-text-fill: #3B415A;" text="Password:" textFill="#3b415a">
+               <font>
+                  <Font name="Roboto Reguler" size="14.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="passwordField" style="-fx-background-color: #fff;" stylesheets="@style.css">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </PasswordField>
+         </VBox>
+         <VBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="84.0" prefHeight="64.0" prefWidth="370.0">
+            <Label style="-fx-text-fill: #001AB1;" text="Lupa Password" textFill="#a5add0">
+               <font>
+                  <Font name="Roboto bold" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="loginButton" prefHeight="37.0" prefWidth="370.0" style="-fx-background-color: #396AFC; -fx-background-radius: 5px; -fx-text-fill: #fff;" text="Masuk">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </VBox>
+      </VBox>
+   </VBox>
+</AnchorPane>
