@@ -73,22 +73,20 @@ public class LoginController {
         });
     }
 
-    private void performLogin() {
+    public void performLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        Account account = login(username, password);
+//        Account account = login(username, password);
+        Account account = login("123", "admin123");
 
         if (account != null) {
             if (account.getRole().equals("admin")) {
                 mainApp.switchToMainMenu(account, "user");
-                System.out.println("Berhasil Login sebagai Admin");
-                // Perform actions specific to the admin role
+//                System.out.println("Berhasil Login sebagai Admin");
             } else {
                 mainApp.switchToMainMenu(account,"");
-
-                System.out.println("Berhasil Login sebagai User");
-                // Perform actions specific to the user role
+//                System.out.println("Berhasil Login sebagai User");
             }
         } else {
             // Login failed
@@ -147,7 +145,7 @@ public class LoginController {
 
                 account = new Account(id, uid, firstName, lastName, phone, avatar, email, gender, role);
 
-                System.out.println(account.getFullName());
+//                System.out.println(account.getFullName());
             }
         } catch (SQLException e) {
             e.printStackTrace();

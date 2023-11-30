@@ -8,3 +8,37 @@
     -fx-border-color: transparent;
     -fx-border-width: 0 0 0 0; /* Disables the bottom border */
 }
+
+.absen-start {
+    -fx-background-color: #396AFC;
+    -fx-effect: dropshadow(gaussian,rgba(57, 106, 252, 0.25), 30, 0, 0, 10);
+    -fx-background-radius: 50px;
+    -fx-text-fill: #ffffff;
+}
+
+.absen-start:hover {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #396AFC;
+    -fx-cursor: hand;
+    transition: -fx-background-color 0.5s;
+    transition-easing-function: ease;
+}
+
+.active-button {
+    -fx-background-color: #fc3939;
+    -fx-effect: dropshadow(gaussian, rgba(252, 57, 102, 0.25), 30, 0, 0, 10);
+    -fx-background-radius: 50px;
+    -fx-text-fill: #ffffff;
+}
+
+.active-button:hover {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(252, 57, 102, 0.25), 30, 0, 0, 10);
+    -fx-background-radius: 50px;
+    -fx-text-fill: #fc3939;
+}
+
+.rounded {
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+}

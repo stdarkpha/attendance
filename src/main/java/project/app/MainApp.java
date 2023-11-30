@@ -11,7 +11,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private Account account;
 //    private MainMenuController mainMenuController;
-
+    LoginController loginController = new LoginController(this);
 
     @Override
     public void start(Stage primaryStage) {
@@ -20,12 +20,12 @@ public class MainApp extends Application {
         Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm()); // Replace with the path to your icon image
         this.primaryStage.getIcons().add(iconImage);
 
-        // Create the controllers for each menu
-        LoginController loginController = new LoginController(this);
-
 
         // Show the login screen initially
         loginController.showScene();
+
+//        Bypass login biar gk cape wkwkwk
+        loginController.performLogin();
 
         primaryStage.show();
     }
@@ -39,6 +39,10 @@ public class MainApp extends Application {
         String fullName = account.getFullName();
 
         switch (menu) {
+            case "logout":
+                this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
+                loginController.showScene();
+                break;
             case "user":
 
                 primaryStage.setTitle("Dashboard - " + fullName);
