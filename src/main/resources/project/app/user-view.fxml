@@ -10,6 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
+<!--suppress ALL -->
 <AnchorPane prefHeight="932.0" prefWidth="430.0" style="-fx-background-color: #F2F5FA;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="932.0" prefWidth="430.0" spacing="20.0">
@@ -250,94 +251,94 @@
                         </HBox>
                         <ScrollPane hbarPolicy="NEVER" prefHeight="197.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="405.0" prefWidth="362.0" style="-fx-background-color: #ffffff;" styleClass="scroll-bar" stylesheets="@style.css">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" styleClass="scroll-bar" stylesheets="@style.css">
                                  <children>
-                                    <VBox alignment="TOP_CENTER" prefHeight="405.0" prefWidth="348.0" spacing="15.0">
+                                    <VBox fx:id="taskContainer" alignment="TOP_CENTER" prefWidth="370.0" spacing="15.0">
                                        <children>
-                                          <VBox layoutX="10.0" layoutY="146.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">
-                                             <children>
-                                                <Text fx:id="clockInText1212" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">
-                                                   <font>
-                                                      <Font name="Roboto Black" size="18.0" />
-                                                   </font>
-                                                </Text>
-                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text fx:id="clockInText12121" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">
-                                                         <font>
-                                                            <Font name="Roboto Light" size="12.0" />
-                                                         </font>
-                                                      </Text>
-                                                   </children>
-                                                </TextFlow>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                                             </padding>
-                                          </VBox>
-                                          <VBox layoutX="10.0" layoutY="10.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">
-                                             <children>
-                                                <Text fx:id="clockInText12121" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">
-                                                   <font>
-                                                      <Font name="Roboto Black" size="18.0" />
-                                                   </font>
-                                                </Text>
-                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text fx:id="clockInText121211" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">
-                                                         <font>
-                                                            <Font name="Roboto Light" size="12.0" />
-                                                         </font>
-                                                      </Text>
-                                                   </children>
-                                                </TextFlow>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                                             </padding>
-                                          </VBox>
-                                          <VBox layoutX="10.0" layoutY="100.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">
-                                             <children>
-                                                <Text fx:id="clockInText121211" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">
-                                                   <font>
-                                                      <Font name="Roboto Black" size="18.0" />
-                                                   </font>
-                                                </Text>
-                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text fx:id="clockInText1212111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">
-                                                         <font>
-                                                            <Font name="Roboto Light" size="12.0" />
-                                                         </font>
-                                                      </Text>
-                                                   </children>
-                                                </TextFlow>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                                             </padding>
-                                          </VBox>
-                                          <VBox layoutX="10.0" layoutY="190.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">
-                                             <children>
-                                                <Text fx:id="clockInText1212111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">
-                                                   <font>
-                                                      <Font name="Roboto Black" size="18.0" />
-                                                   </font>
-                                                </Text>
-                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text fx:id="clockInText12121111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">
-                                                         <font>
-                                                            <Font name="Roboto Light" size="12.0" />
-                                                         </font>
-                                                      </Text>
-                                                   </children>
-                                                </TextFlow>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                                             </padding>
-                                          </VBox>
+<!--                                          <VBox layoutX="10.0" layoutY="146.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">-->
+<!--                                             <children>-->
+<!--                                                <Text fx:id="clockInText1212" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">-->
+<!--                                                   <font>-->
+<!--                                                      <Font name="Roboto Black" size="18.0" />-->
+<!--                                                   </font>-->
+<!--                                                </Text>-->
+<!--                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">-->
+<!--                                                   <children>-->
+<!--                                                      <Text fx:id="clockInText12121" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">-->
+<!--                                                         <font>-->
+<!--                                                            <Font name="Roboto Light" size="12.0" />-->
+<!--                                                         </font>-->
+<!--                                                      </Text>-->
+<!--                                                   </children>-->
+<!--                                                </TextFlow>-->
+<!--                                             </children>-->
+<!--                                             <padding>-->
+<!--                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />-->
+<!--                                             </padding>-->
+<!--                                          </VBox>-->
+<!--                                          <VBox layoutX="10.0" layoutY="10.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">-->
+<!--                                             <children>-->
+<!--                                                <Text fx:id="clockInText12121" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">-->
+<!--                                                   <font>-->
+<!--                                                      <Font name="Roboto Black" size="18.0" />-->
+<!--                                                   </font>-->
+<!--                                                </Text>-->
+<!--                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">-->
+<!--                                                   <children>-->
+<!--                                                      <Text fx:id="clockInText121211" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">-->
+<!--                                                         <font>-->
+<!--                                                            <Font name="Roboto Light" size="12.0" />-->
+<!--                                                         </font>-->
+<!--                                                      </Text>-->
+<!--                                                   </children>-->
+<!--                                                </TextFlow>-->
+<!--                                             </children>-->
+<!--                                             <padding>-->
+<!--                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />-->
+<!--                                             </padding>-->
+<!--                                          </VBox>-->
+<!--                                          <VBox layoutX="10.0" layoutY="100.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">-->
+<!--                                             <children>-->
+<!--                                                <Text fx:id="clockInText121211" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">-->
+<!--                                                   <font>-->
+<!--                                                      <Font name="Roboto Black" size="18.0" />-->
+<!--                                                   </font>-->
+<!--                                                </Text>-->
+<!--                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">-->
+<!--                                                   <children>-->
+<!--                                                      <Text fx:id="clockInText1212111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">-->
+<!--                                                         <font>-->
+<!--                                                            <Font name="Roboto Light" size="12.0" />-->
+<!--                                                         </font>-->
+<!--                                                      </Text>-->
+<!--                                                   </children>-->
+<!--                                                </TextFlow>-->
+<!--                                             </children>-->
+<!--                                             <padding>-->
+<!--                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />-->
+<!--                                             </padding>-->
+<!--                                          </VBox>-->
+<!--                                          <VBox layoutX="10.0" layoutY="190.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: #F6F6F6; -fx-border-style: solid; -fx-border-width: 4; -fx-border-color: transparent transparent transparent #396AFC;">-->
+<!--                                             <children>-->
+<!--                                                <Text fx:id="clockInText1212111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00 AM">-->
+<!--                                                   <font>-->
+<!--                                                      <Font name="Roboto Black" size="18.0" />-->
+<!--                                                   </font>-->
+<!--                                                </Text>-->
+<!--                                                <TextFlow lineSpacing="5.0" opacity="0.5" prefHeight="200.0" prefWidth="200.0">-->
+<!--                                                   <children>-->
+<!--                                                      <Text fx:id="clockInText12121111" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Replace &lt;desired_color&gt; with the color you want to use for the scroll bars.">-->
+<!--                                                         <font>-->
+<!--                                                            <Font name="Roboto Light" size="12.0" />-->
+<!--                                                         </font>-->
+<!--                                                      </Text>-->
+<!--                                                   </children>-->
+<!--                                                </TextFlow>-->
+<!--                                             </children>-->
+<!--                                             <padding>-->
+<!--                                                <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />-->
+<!--                                             </padding>-->
+<!--                                          </VBox>-->
                                        </children>
                                     </VBox>
                                  </children>

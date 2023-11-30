@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
@@ -39,6 +40,9 @@ public class UserController {
     @FXML private Button setClock;
     @FXML private Text clockInText, clockOutText, dayWork, averageClockIn, averageClockOut, totalLateText;
 
+    @FXML private VBox taskContainer;
+
+
     public UserController(MainApp mainApp, Account account) { // Receive account object as parameter
         this.mainApp = mainApp;
         this.account = account;
@@ -54,9 +58,20 @@ public class UserController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("user-view.fxml"));
             loader.setController(this);
             userContainer = loader.load();
+
+            TaskHelper taskHelper = new TaskHelper();
+            taskHelper.createTaskVBoxes(this, account.getId());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Tidak dapat memuat scene");
+        }
+    }
+
+    public void addTaskVBox(VBox vbox) {
+        if (taskContainer != null) {
+            taskContainer.getChildren().add(vbox);
+        } else {
+            System.out.println("taskContainer is null. Please ensure it is properly initialized.");
         }
     }
 
