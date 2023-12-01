@@ -1,19 +1,17 @@
 package project.app;
 
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-
 public class LogHelper {
-
     public static Map<String, Object> totalWork(int id) {
         int count = 0;
         int lateCount = 0;
@@ -22,10 +20,10 @@ public class LogHelper {
         Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = null;
         try {
-            // Retrieve the ClockIn value from the settings table
             String clockInSettingQuery = "SELECT value FROM settings WHERE name = 'ClockIn'";
             PreparedStatement clockInStmt = conn.prepareStatement(clockInSettingQuery);
             ResultSet clockInResultSet = clockInStmt.executeQuery();
+
             if (clockInResultSet.next()) {
                 String clockInValue = clockInResultSet.getString("value");
 
@@ -37,15 +35,14 @@ public class LogHelper {
                         "WHERE user_id = ? " +
                         "AND MONTH(date) = MONTH(CURRENT_DATE()) " +
                         "AND YEAR(date) = YEAR(CURRENT_DATE())";
+
                 stmt = conn.prepareStatement(query);
 
-                // Set the clockIn value from the settings table as the reference for late calculation
                 stmt.setObject(1, LocalTime.parse(clockInValue));
                 stmt.setObject(2, LocalTime.parse(clockInValue));
-
                 stmt.setInt(3, id);
-
                 ResultSet resultSet = stmt.executeQuery();
+
                 if (resultSet.next()) {
                     count = resultSet.getInt("count");
                     lateCount = resultSet.getInt("late_count");
@@ -55,14 +52,12 @@ public class LogHelper {
                     averageClockOut = LocalTime.parse(avgClockOutStr);
                 }
 
-                // Close the clockInStmt and its result set
                 clockInResultSet.close();
                 clockInStmt.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Close the statement and connection in the finally block
             try {
                 if (stmt != null) {
                     stmt.close();

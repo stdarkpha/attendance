@@ -7,24 +7,22 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class MainApp extends Application {
-
     private Stage primaryStage;
     private Account account;
-//    private MainMenuController mainMenuController;
     LoginController loginController = new LoginController(this);
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
-        Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm()); // Replace with the path to your icon image
+        Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm());
         this.primaryStage.getIcons().add(iconImage);
 
 
         // Show the login screen initially
         loginController.showScene();
 
-//        Bypass login biar gk cape wkwkwk
+        // Bypass login biar gk cape wkwkwk
         loginController.performLogin();
 
         primaryStage.show();

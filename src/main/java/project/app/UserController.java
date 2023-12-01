@@ -1,49 +1,62 @@
 package project.app;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Cursor;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
+import java.util.Locale;
+import java.util.Map;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
+
+import javafx.geometry.Insets;
 
 public class UserController {
     SettingHelper setting = new SettingHelper();
     private final LocalTime startTime = setting.getClockIn();
     private final MainApp mainApp;
     private final Account account;
+    private static String operationType;
     private Timeline timeline;
     private FadeTransition clockFadeTransition;
     private FadeTransition secondFadeTransition;
 
     @FXML private AnchorPane userContainer;
-    @FXML private Text greetingText, dateToday, clockText, secondText, textLate, timeLate;
-    @FXML private Button setClock;
+    @FXML private Text greetingText, dateToday, clockText, secondText, textLate, timeLate, textLabelTask;
     @FXML private Text clockInText, clockOutText, dayWork, averageClockIn, averageClockOut, totalLateText;
-
+    @FXML private TextField taskLabel, taskDesc;
+    @FXML private Button setClock, addTask, closeTask, taskPushButton;
+    @FXML private Pane form;
     @FXML private VBox taskContainer;
+    @FXML private HBox btnContainer;
+    @FXML private ChoiceBox<String> choiceBox;
 
-
-    public UserController(MainApp mainApp, Account account) { // Receive account object as parameter
+    //    Start Scene Controller ---------------------- <<<
+    public UserController(MainApp mainApp, Account account) {
         this.mainApp = mainApp;
         this.account = account;
         loadFXML();
@@ -59,139 +72,38 @@ public class UserController {
             loader.setController(this);
             userContainer = loader.load();
 
-            TaskHelper taskHelper = new TaskHelper();
-            taskHelper.createTaskVBoxes(this, account.getId());
+            TaskHelper.createTaskVBoxes(this, account.getId());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Tidak dapat memuat scene");
         }
     }
 
-    public void addTaskVBox(VBox vbox) {
-        if (taskContainer != null) {
-            taskContainer.getChildren().add(vbox);
-        } else {
-            System.out.println("taskContainer is null. Please ensure it is properly initialized.");
-        }
-    }
+    //    End Scene Controller ---------------------- <<<
 
-    @FXML
-    private void initialize() {
-        String greeting = generateGreeting();
-        String todayDate = generateDate();
-        greetingText.setText(greeting + account.getFirstName() + "!");
-        dateToday.setText(todayDate);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            LocalTime currentTime = LocalTime.now();
-            String formattedTime = currentTime.format(formatter);
-            clockText.setText(formattedTime);
-
-            // Extract the seconds value and update the corresponding node
-            int seconds = currentTime.getSecond();
-            String formattedSeconds = String.format("%02d", seconds);
-            boolean absen = CheckAttendance(account.getId());
-            secondText.setText(formattedSeconds);
-
-            if (absen) {
-                CheckAttendance(account.getId());
-            } else {
-                if (currentTime.isAfter(startTime)) {
-                    clockText.setFill(Color.RED);
-                    secondText.setFill(Color.RED);
-
-                    // Create a fade animation for the clock text
-                    clockFadeTransition = new FadeTransition(Duration.seconds(1), clockText);
-                    clockFadeTransition.setFromValue(0.25);
-                    clockFadeTransition.setToValue(1);
-                    clockFadeTransition.setAutoReverse(true);
-                    clockFadeTransition.play();
-
-                    // Create a fade animation for the second text
-                    secondFadeTransition = new FadeTransition(Duration.seconds(1), secondText);
-                    secondFadeTransition.setFromValue(0.25);
-                    secondFadeTransition.setToValue(1);
-                    secondFadeTransition.setAutoReverse(true);
-                    secondFadeTransition.play();
-
-                    calculatePasses(currentTime);
-                } else {
-                    textLate.setText("Silahkan Absen Sebelum Jam Masuk" );
-                    timeLate.setText(String.valueOf(startTime));
-                    clockText.setFill(Color.web("#3B415A"));
-                    secondText.setFill(Color.web("#3B415A"));
-                }
-            }
-
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-
-        setClock.setOnAction(e -> SetClock());
-        CheckAttendance(account.getId());
-
-        monthData();
-    }
-
-    public static String timeFormat(String time) {
-        LocalTime localTime = LocalTime.parse(time);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return localTime.format(formatter);
-    }
-
-    public void monthData() {
-        Map<String, Object> result = LogHelper.totalWork(account.getId());
-        int UserDayWork = (int) result.get("count");
-        int DayWork = LogHelper.DayWork();
-        totalLateText.setText(String.valueOf(result.get("lateCount")));
-        dayWork.setText(UserDayWork +"/" + DayWork);
-        averageClockIn.setText(timeFormat(result.get("averageClockIn").toString()));
-        averageClockOut.setText(timeFormat(result.get("averageClockOut").toString()));
-    }
-
-    public void SetClock() {
-        int id = account.getId();
-        boolean attendance = CheckAttendance(id);
-
-        Connection conn = DBConnection.getConnection();
-        PreparedStatement stmt = null;
+    //    Start Navbar Methode ---------------------- <<<
+    public static String generateGreeting() {
         LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String currentDateTime = currentTime.format(formatter);
 
-        if (attendance) {
-            try {
-                System.out.println("Clock Out");
-                String query = "UPDATE log_user SET clock_out = ? WHERE user_id = ? AND date = CURDATE()";
-                stmt = conn.prepareStatement(query);
-
-                stmt.setString(1, currentDateTime);
-                stmt.setInt(2, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if (currentTime.isBefore(LocalTime.NOON)) {
+            return "Selamat Pagi, ";
+        } else if (currentTime.isBefore(LocalTime.of(13, 0))) {
+            return "Selamat Siang, ";
+        } else if (currentTime.isBefore(LocalTime.of(17, 0))) {
+            return "Selamat Sore, ";
         } else {
-            try {
-                System.out.println("Clock In");
-                // Construct the SQL INSERT statement
-                String query = "INSERT INTO log_user (user_id, date, clock_in) VALUES (?, CURDATE(), ?)";
-                stmt = conn.prepareStatement(query);
-
-                stmt.setInt(1, id);
-                stmt.setString(2, currentDateTime);
-
-                // Execute the SQL statement
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            return "Selamat Malam, ";
         }
-
-        monthData();
+    }
+    public static String generateDate() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM - yyyy", new Locale("id", "ID"));
+        return currentDate.format(formatter);
     }
 
+    //    End Navbar Methode ---------------------- <<<
+
+    //    Start Clock ---------------------- <<<
     public boolean CheckAttendance(int userId) {
         Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = null;
@@ -289,23 +201,275 @@ public class UserController {
         }
     }
 
-    public static String generateGreeting() {
-        LocalTime currentTime = LocalTime.now();
+    public static String timeFormat(String time) {
+        LocalTime localTime = LocalTime.parse(time);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return localTime.format(formatter);
+    }
 
-        if (currentTime.isBefore(LocalTime.NOON)) {
-            return "Selamat Pagi, ";
-        } else if (currentTime.isBefore(LocalTime.of(13, 0))) {
-            return "Selamat Siang, ";
-        } else if (currentTime.isBefore(LocalTime.of(17, 0))) {
-            return "Selamat Sore, ";
+    public void SetClock() {
+        int id = account.getId();
+        boolean attendance = CheckAttendance(id);
+
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String currentDateTime = currentTime.format(formatter);
+
+        if (attendance) {
+            try {
+                System.out.println("Clock Out");
+                String query = "UPDATE log_user SET clock_out = ? WHERE user_id = ? AND date = CURDATE()";
+                stmt = conn.prepareStatement(query);
+
+                stmt.setString(1, currentDateTime);
+                stmt.setInt(2, id);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
-            return "Selamat Malam, ";
+            try {
+                System.out.println("Clock In");
+                // Construct the SQL INSERT statement
+                String query = "INSERT INTO log_user (user_id, date, clock_in) VALUES (?, CURDATE(), ?)";
+                stmt = conn.prepareStatement(query);
+
+                stmt.setInt(1, id);
+                stmt.setString(2, currentDateTime);
+
+                // Execute the SQL statement
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        monthData();
+    }
+    //    End Clock ---------------------- <<<
+
+    //    Start Dashboard Data ---------------------- <<<
+    public void monthData() {
+        Map<String, Object> result = LogHelper.totalWork(account.getId());
+        int UserDayWork = (int) result.get("count");
+        int DayWork = LogHelper.DayWork();
+        totalLateText.setText(String.valueOf(result.get("lateCount")));
+        dayWork.setText(UserDayWork +"/" + DayWork);
+        averageClockIn.setText(timeFormat(result.get("averageClockIn").toString()));
+        averageClockOut.setText(timeFormat(result.get("averageClockOut").toString()));
+    }
+    //    End Dashboard Data ---------------------- <<<
+
+    //    Start Activity Control ---------------------- <<<
+    public static void setOperationType(String type) {
+        operationType = type;
+    }
+    public void addTaskVBox(VBox vbox) {
+        if (taskContainer != null) {
+            taskContainer.getChildren().add(vbox);
+        } else {
+            System.out.println("taskContainer is null. Please ensure it is properly initialized.");
         }
     }
 
-    public static String generateDate() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM - yyyy", new Locale("id", "ID"));
-        return currentDate.format(formatter);
+    public void modalTask() {
+        double fromY, toY;
+
+        if (form.getTranslateY() == 0.0) {
+            fromY = 0.0;
+            toY = -500.0;
+            System.out.println("buka");
+            if (operationType.equals("add")) {
+                textLabelTask.setText("Tambah Tugas Baru");
+                taskPushButton.setText("Simpan Tugas");
+                taskPushButton.setStyle("-fx-background-color: #3665F0;");
+                taskLabel.setText("");
+                taskDesc.setText("");
+                choiceBox.setValue(null);
+            } else if (operationType.equals("update")) {
+                taskPushButton.setStyle("-fx-background-color: #f58f0d;");
+                taskPushButton.setText("Simpan Perubahan");
+                textLabelTask.setText("Form Ubah Tugas");
+                taskLabel.setText(TaskHelper.getSelectedLabel());
+                taskDesc.setText(TaskHelper.getSelectedDescription());
+                choiceBox.setValue(TaskHelper.getSelectedStatus());
+                addDeleteButton();
+            }
+        } else {
+            fromY = -500.0;
+            toY = 0.0;
+            System.out.println("tutup");
+        }
+
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(.4), form);
+        transition.setFromY(fromY);
+        transition.setToY(toY);
+
+        transition.play();
+    }
+
+    private void addDeleteButton() {
+        Button deleteButton = new Button("Hapus");
+        deleteButton.setContentDisplay(ContentDisplay.CENTER);
+        deleteButton.setMnemonicParsing(false);
+        deleteButton.setPrefHeight(25.0);
+        deleteButton.setPrefWidth(376.0);
+        deleteButton.setStyle("-fx-background-color: #f03652; -fx-background-radius: 5;");
+        deleteButton.setTextAlignment(TextAlignment.CENTER);
+        deleteButton.setTextFill(Color.WHITE);
+        deleteButton.setId("Hapus");
+        HBox.setHgrow(deleteButton, Priority.ALWAYS);
+        deleteButton.setFont(Font.font("Roboto Medium", 14.0));
+        deleteButton.setPadding(new Insets(8.0, 12.0, 8.0, 12.0));
+        deleteButton.setCursor(Cursor.HAND);
+
+        deleteButton.setOnAction(event -> {
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText(null);
+            confirmationDialog.setContentText("Are you sure you want to delete?");
+
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            confirmationDialog.getButtonTypes().setAll(yesButton, noButton);
+
+
+            confirmationDialog.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == yesButton) {
+                    Connection conn = DBConnection.getConnection();
+                    PreparedStatement stmt = null;
+                    String idTask = TaskHelper.getSelectedTaskId();
+                    System.out.println(idTask);
+                    try {
+                        String query = "DELETE FROM tasks WHERE id = ?";
+                        stmt = conn.prepareStatement(query);
+                        stmt.setString(1, idTask);
+                        stmt.executeUpdate();
+
+                        taskContainer.getChildren().clear();
+                        TaskHelper.createTaskVBoxes(this, account.getId());
+
+                        modalTask();
+                        removeBtnDelete();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Deletion canceled");
+                }
+            });
+
+
+        });
+
+        btnContainer.getChildren().add(deleteButton);
+    }
+
+    private void removeBtnDelete() {
+        for (Node node : btnContainer.getChildren()) {
+            if (node.getId().equals("Hapus")) {
+                btnContainer.getChildren().remove(node);
+                break;
+            }
+        }
+    }
+
+    //    End Activity Control ---------------------- <<<
+
+    @FXML
+    private void initialize() {
+        String greeting = generateGreeting();
+        String todayDate = generateDate();
+        greetingText.setText(greeting + account.getFirstName() + "!");
+        dateToday.setText(todayDate);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            LocalTime currentTime = LocalTime.now();
+            String formattedTime = currentTime.format(formatter);
+            clockText.setText(formattedTime);
+
+            // Extract the seconds value and update the corresponding node
+            int seconds = currentTime.getSecond();
+            String formattedSeconds = String.format("%02d", seconds);
+            boolean absen = CheckAttendance(account.getId());
+            secondText.setText(formattedSeconds);
+
+            if (absen) {
+                CheckAttendance(account.getId());
+            } else {
+                if (currentTime.isAfter(startTime)) {
+                    clockText.setFill(Color.RED);
+                    secondText.setFill(Color.RED);
+
+                    // Create a fade animation for the clock text
+                    clockFadeTransition = new FadeTransition(Duration.seconds(1), clockText);
+                    clockFadeTransition.setFromValue(0.25);
+                    clockFadeTransition.setToValue(1);
+                    clockFadeTransition.setAutoReverse(true);
+                    clockFadeTransition.play();
+
+                    // Create a fade animation for the second text
+                    secondFadeTransition = new FadeTransition(Duration.seconds(1), secondText);
+                    secondFadeTransition.setFromValue(0.25);
+                    secondFadeTransition.setToValue(1);
+                    secondFadeTransition.setAutoReverse(true);
+                    secondFadeTransition.play();
+
+                    calculatePasses(currentTime);
+                } else {
+                    textLate.setText("Silahkan Absen Sebelum Jam Masuk" );
+                    timeLate.setText(String.valueOf(startTime));
+                    clockText.setFill(Color.web("#3B415A"));
+                    secondText.setFill(Color.web("#3B415A"));
+                }
+            }
+
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
+        setClock.setOnAction(e -> SetClock());
+        CheckAttendance(account.getId());
+        monthData();
+
+        choiceBox.getItems().addAll("Dikerjakan", "Selesai");
+        addTask.setOnAction(e -> {
+            setOperationType("add");
+            modalTask();
+        });
+
+        closeTask.setOnAction(e -> {
+            modalTask();
+            removeBtnDelete();
+        });
+
+        taskPushButton.setOnAction(e -> {
+            String label = taskLabel.getText();
+            String desc = taskDesc.getText();
+            String status = choiceBox.getValue();
+            TaskHelper.submitTask(operationType, account.getId(), label, desc, status);
+            if(operationType.equals("add")) {
+                taskLabel.setText("");
+                taskDesc.setText("");
+                choiceBox.setValue(null);
+
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Berhasil Menambah");
+                alert.setHeaderText(null);
+                alert.setContentText("Pekerjaan berhasil ditambah!");
+                alert.showAndWait();
+            } else if (operationType.equals("update")) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Berhasil Update");
+                alert.setHeaderText(null);
+                alert.setContentText("Pekerjaan berhasil diupdate!");
+                alert.showAndWait();
+            }
+            taskContainer.getChildren().clear();
+            TaskHelper.createTaskVBoxes(this, account.getId());
+        });
     }
 }

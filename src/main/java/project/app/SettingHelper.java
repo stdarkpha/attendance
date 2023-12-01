@@ -43,6 +43,6 @@ public class SettingHelper {
             e.printStackTrace();
         }
 
-        return null; // or throw an exception if desired
+        return null;
     }
 }

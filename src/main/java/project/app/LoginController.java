@@ -2,22 +2,24 @@ package project.app;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.input.KeyCode;
 import javafx.scene.control.Alert;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import java.nio.charset.StandardCharsets;
 
 public class LoginController {
 
@@ -53,24 +55,6 @@ public class LoginController {
 
             System.out.println("Tidak dapat memuat scene");
         }
-    }
-
-    @FXML
-    private void initialize() {
-        loginButton.setOnAction(e -> performLogin());
-
-        usernameField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                passwordField.requestFocus();
-            }
-        });
-
-        // Event handler for Enter key press in the passwordField
-        passwordField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                performLogin();
-            }
-        });
     }
 
     public void performLogin() {
@@ -166,4 +150,20 @@ public class LoginController {
         return account;
     }
 
+    @FXML
+    private void initialize() {
+        loginButton.setOnAction(e -> performLogin());
+
+        usernameField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                passwordField.requestFocus();
+            }
+        });
+
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                performLogin();
+            }
+        });
+    }
 }
