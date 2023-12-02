@@ -31,6 +31,17 @@ public class AdminController {
         mainApp.getPrimaryStage().setScene(new Scene(AdminContainer));
     }
 
+    private void loadFXML() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
+            loader.setController(this);
+            AdminContainer = loader.load();
+        } catch (Exception e) {
+
+            System.out.println("Tidak dapat memuat scene");
+        }
+    }
+
     @FXML
     private Text textTotalEmployee, textTotalDivision, greetingText, dateToday;
     @FXML
@@ -98,9 +109,10 @@ public class AdminController {
         LocalTime averageClockInYear = LocalTime.MIDNIGHT;
         LocalTime averageClockOutYear = LocalTime.MIDNIGHT;
 
-        Connection conn = DBConnection.getConnection();
+        Connection conn = null;
         PreparedStatement stmt = null;
         try {
+            conn = DBConnection.getConnection();
             String clockInSettingQuery = "SELECT value FROM settings WHERE name = 'ClockIn'";
             PreparedStatement clockInStmt = conn.prepareStatement(clockInSettingQuery);
             ResultSet clockInResultSet = clockInStmt.executeQuery();
@@ -203,17 +215,6 @@ public class AdminController {
         return result;
     }
 
-    private void loadFXML() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
-            loader.setController(this);
-            AdminContainer = loader.load();
-        } catch (Exception e) {
-
-            System.out.println("Tidak dapat memuat scene");
-        }
-    }
-
     @FXML
     private void initialize() {
         String greeting = UiHelper.generateGreeting();
@@ -226,23 +227,23 @@ public class AdminController {
         textTotalEmployee.setText(String.valueOf(getEmployees()));
         textTotalDivision.setText(String.valueOf(getDivision()));
 
-        Map<String, Object> result = monthDataVal();
+//        Map<String, Object> result = monthDataVal();
 
-        textCountToday.setText(String.valueOf(result.get("countToday")));
-        textInToday.setText(UiHelper.timeFormat(result.get("averageClockInToday").toString()));
-        textOutToday.setText(UiHelper.timeFormat(result.get("averageClockOutToday").toString()));
-        textLateToday.setText(String.valueOf(result.get("lateCountToday")));
+//        textCountToday.setText(String.valueOf(result.get("countToday")));
+//        textInToday.setText(UiHelper.timeFormat(result.get("averageClockInToday").toString()));
+//        textOutToday.setText(UiHelper.timeFormat(result.get("averageClockOutToday").toString()));
+//        textLateToday.setText(String.valueOf(result.get("lateCountToday")));
+//
+//        textCountMonth.setText(String.valueOf(result.get("count")));
+//        textInMonth.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
+//        textOutMonth.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
+//        textLateMonth.setText(String.valueOf(result.get("lateCount")));
+//
+//        textCountYear.setText(String.valueOf(result.get("countYear")));
+//        textInYear.setText(UiHelper.timeFormat(result.get("averageClockInYear").toString()));
+//        textOutYear.setText(UiHelper.timeFormat(result.get("averageClockOutYear").toString()));
+//        textLateYear.setText(String.valueOf(result.get("lateCountYear")));
 
-        textCountMonth.setText(String.valueOf(result.get("count")));
-        textInMonth.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
-        textOutMonth.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
-        textLateMonth.setText(String.valueOf(result.get("lateCount")));
-
-        textCountYear.setText(String.valueOf(result.get("countYear")));
-        textInYear.setText(UiHelper.timeFormat(result.get("averageClockInYear").toString()));
-        textOutYear.setText(UiHelper.timeFormat(result.get("averageClockOutYear").toString()));
-        textLateYear.setText(String.valueOf(result.get("lateCountYear")));
-
-        System.out.println(result);
+//        System.out.println(result);
     }
 }
