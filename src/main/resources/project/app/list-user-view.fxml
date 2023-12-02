@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<!--suppress ALL -->
+
+<AnchorPane prefHeight="932.0" prefWidth="430.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="932.0" prefWidth="430.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefWidth="430.0" spacing="20.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <HBox prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Circle fx:id="circleAvatar" fill="#ebebeb" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                              <VBox alignment="CENTER_LEFT" fillWidth="false" prefHeight="43.0" prefWidth="171.0" spacing="3.0">
+                                 <children>
+                                    <Text fx:id="greetingText" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <font>
+                                          <Font name="Roboto Medium" size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="dateToday" fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <font>
+                                          <Font name="Roboto Medium" size="12.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@logout.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="810.0" prefWidth="430.0" style="-fx-background-color: #F2F5FA;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox alignment="TOP_CENTER" prefWidth="430.0" spacing="20.0" style="-fx-background-color: #F2F5FA;">
+                     <children>
+                        <VBox spacing="20.0">
+                           <children>
+                              <HBox VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="textTotalEmployee1" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Daftar Karyawan (10)">
+                                             <font>
+                                                <Font name="Roboto Bold" size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" style="-fx-background-color: #001AB1; -fx-background-radius: 50;" text="+ Karyawan Baru" textFill="WHITE">
+                                             <font>
+                                                <Font name="Roboto Light" size="12.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                             </padding>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;">
+                                 <children>
+                                    <Circle fx:id="circleAvatar1" fill="#ebebeb" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                                    <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="textTotalEmployee" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Karyawan">
+                                             <font>
+                                                <Font name="Roboto Medium" size="14.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0" text="Id : 041241 | Divisi Karyawan">
+                                             <font>
+                                                <Font name="Montserrat Regular" size="12.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                       <children>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@Edit.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@Trash.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                 </padding>
+                                 <effect>
+                                    <DropShadow>
+                                       <color>
+                                          <Color red="0.11969999969005585" green="0.15372000634670258" blue="0.6299999952316284" opacity="0.11999999731779099" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <HBox prefHeight="50.0" prefWidth="430.0" style="-fx-background-color: #001AB1;" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox fx:id="bottomBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Home.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView layoutX="10.0" layoutY="10.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Task.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Setting.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+      <Pane fx:id="form" prefWidth="430.0" AnchorPane.bottomAnchor="-500.0">
+         <children>
+            <VBox prefHeight="55.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 30 30 0 0;">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="430.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="textLabelTask" fill="#4d4e66" strokeType="OUTSIDE" strokeWidth="0.0" text="Tambah Karyawan Baru" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Roboto Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" layoutX="69.0" layoutY="10.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="closeTask" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: red; -fx-background-radius: 50;" text="X Tutup" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="Roboto Medium" size="10.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="6.0" left="12.0" right="12.0" top="6.0" />
+                                 </padding>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox spacing="15.0">
+                     <children>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Depan">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="taskLabel">
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Belakang">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="taskLabel1">
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="taskLabel1">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Telepon">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="taskLabel11">
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Jenis Kelamin">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="choiceBox" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisi">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="choiceBox1" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <HBox fx:id="btnContainer" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="taskPushButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="376.0" style="-fx-background-color: #3665F0; -fx-background-radius: 5;" text="Tambah User" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Roboto Medium" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="8.0" left="12.0" right="12.0" top="8.0" />
+                           </padding>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="175.0" radius="87.0" width="175.0">
+                     <color>
+                        <Color green="0.015333333052694798" blue="0.23000000417232513" opacity="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
