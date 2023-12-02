@@ -4,7 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.sql.Connection;
@@ -15,32 +19,17 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
+
+import javafx.scene.chart.XYChart;
+
+
+
 public class AdminController {
 
     private final MainApp mainApp;
 
     @FXML
-    private AnchorPane AdminContainer;
-
-    public AdminController(MainApp mainApp) {
-        this.mainApp = mainApp;
-        loadFXML();
-    }
-
-    public void showScene() {
-        mainApp.getPrimaryStage().setScene(new Scene(AdminContainer));
-    }
-
-    private void loadFXML() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
-            loader.setController(this);
-            AdminContainer = loader.load();
-        } catch (Exception e) {
-
-            System.out.println("Tidak dapat memuat scene");
-        }
-    }
+    private AnchorPane adminContainer;
 
     @FXML
     private Text textTotalEmployee, textTotalDivision, greetingText, dateToday;
@@ -50,6 +39,96 @@ public class AdminController {
     private Text textCountMonth, textInMonth, textOutMonth, textLateMonth;
     @FXML
     private Text textCountYear, textInYear, textOutYear, textLateYear;
+
+    @FXML
+    private NumberAxis todayX, todayY;
+
+    @FXML
+    private VBox todayChart, monthChart, yearChart;
+
+    public AdminController(MainApp mainApp) {
+        this.mainApp = mainApp;
+        loadFXML();
+    }
+
+    private void loadFXML() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
+            loader.setController(this);
+            adminContainer = loader.load();
+
+            String chartName = "yearChart";
+            String seriesName = "Grafik Absen Masuk Tahunan";
+            String query = "SELECT clock_in, COUNT(*) AS total_count FROM log_user GROUP BY clock_in ORDER BY clock_in ASC";
+            createLineChart(chartName, seriesName, query, loader);
+
+            // Month Query
+            chartName = "monthChart";
+            seriesName = "Grafik Absen Masuk Bulanan";
+            query = "SELECT clock_in, COUNT(*) AS total_count \n" +
+                    "FROM log_user \n" +
+                    "WHERE DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m') \n" +
+                    "GROUP BY clock_in \n" +
+                    "ORDER BY clock_in ASC;";
+            createLineChart(chartName, seriesName, query, loader);
+
+            // Today Query
+            chartName = "todayChart";
+            seriesName = "Grafik Absen Masuk Harian";
+            query = "SELECT clock_in, COUNT(*) AS total_count \n" +
+                    "FROM log_user \n" +
+                    "WHERE DATE(date) = CURRENT_DATE() \n" +
+                    "GROUP BY clock_in \n" +
+                    "ORDER BY clock_in ASC;";
+            createLineChart(chartName, seriesName, query, loader);
+
+        } catch (Exception e) {
+
+            System.out.println("Tidak dapat memuat scene");
+        }
+    }
+
+    public void createLineChart(String chartName, String seriesName, String query, FXMLLoader loader) {
+        VBox vbox = (VBox) loader.getNamespace().get(chartName);
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+
+        LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+        dataSeries.setName(seriesName);
+
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String clockIn = UiHelper.timeFormat(rs.getString("clock_in"));
+                int totalCount = rs.getInt("total_count");
+                dataSeries.getData().add(new XYChart.Data<>(clockIn, totalCount));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        lineChart.getData().add(dataSeries);
+
+        dataSeries.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: #396AFC;"); // Set line color
+        for (XYChart.Data<String, Number> data : dataSeries.getData()) {
+            data.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: #396AFC, white; -fx-background-insets: 0, 2;");
+        }
+        vbox.getChildren().add(lineChart);
+    }
+
+    public void showScene() {
+        mainApp.getPrimaryStage().setScene(new Scene(adminContainer));
+    }
+
 
     public static int getEmployees() {
         Connection conn = DBConnection.getConnection();
