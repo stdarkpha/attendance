@@ -227,23 +227,23 @@ public class AdminController {
         textTotalEmployee.setText(String.valueOf(getEmployees()));
         textTotalDivision.setText(String.valueOf(getDivision()));
 
-//        Map<String, Object> result = monthDataVal();
+        Map<String, Object> result = monthDataVal();
 
-//        textCountToday.setText(String.valueOf(result.get("countToday")));
-//        textInToday.setText(UiHelper.timeFormat(result.get("averageClockInToday").toString()));
-//        textOutToday.setText(UiHelper.timeFormat(result.get("averageClockOutToday").toString()));
-//        textLateToday.setText(String.valueOf(result.get("lateCountToday")));
-//
-//        textCountMonth.setText(String.valueOf(result.get("count")));
-//        textInMonth.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
-//        textOutMonth.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
-//        textLateMonth.setText(String.valueOf(result.get("lateCount")));
-//
-//        textCountYear.setText(String.valueOf(result.get("countYear")));
-//        textInYear.setText(UiHelper.timeFormat(result.get("averageClockInYear").toString()));
-//        textOutYear.setText(UiHelper.timeFormat(result.get("averageClockOutYear").toString()));
-//        textLateYear.setText(String.valueOf(result.get("lateCountYear")));
+        textCountToday.setText(String.valueOf(result.get("countToday")));
+        textInToday.setText(UiHelper.timeFormat(result.get("averageClockInToday").toString()));
+        textOutToday.setText(UiHelper.timeFormat(result.get("averageClockOutToday").toString()));
+        textLateToday.setText(String.valueOf(result.get("lateCountToday")));
 
-//        System.out.println(result);
+        textCountMonth.setText(String.valueOf(result.get("count")));
+        textInMonth.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
+        textOutMonth.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
+        textLateMonth.setText(String.valueOf(result.get("lateCount")));
+
+        textCountYear.setText(String.valueOf(result.get("countYear")));
+        textInYear.setText(UiHelper.timeFormat(result.get("averageClockInYear").toString()));
+        textOutYear.setText(UiHelper.timeFormat(result.get("averageClockOutYear").toString()));
+        textLateYear.setText(String.valueOf(result.get("lateCountYear")));
+
+        System.out.println(result);
     }
 }
