@@ -28,7 +28,7 @@ public class LogHelper {
                 String clockInValue = clockInResultSet.getString("value");
 
                 String query = "SELECT COUNT(*) AS count, " +
-                        "SUM(IF(TIME_TO_SEC(clock_in) > TIME_TO_SEC(?) + TIME_TO_SEC(?), 1, 0)) AS late_count, " +
+                        "SUM(IF(TIME_TO_SEC(clock_in) > TIME_TO_SEC(?), 1, 0)) AS late_count, " +
                         "SEC_TO_TIME(AVG(TIME_TO_SEC(clock_in))) AS avg_clock_in, " +
                         "SEC_TO_TIME(AVG(TIME_TO_SEC(clock_out))) AS avg_clock_out " +
                         "FROM log_user " +
@@ -39,8 +39,7 @@ public class LogHelper {
                 stmt = conn.prepareStatement(query);
 
                 stmt.setObject(1, LocalTime.parse(clockInValue));
-                stmt.setObject(2, LocalTime.parse(clockInValue));
-                stmt.setInt(3, id);
+                stmt.setInt(2, id);
                 ResultSet resultSet = stmt.executeQuery();
 
                 if (resultSet.next()) {

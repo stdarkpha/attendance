@@ -22,11 +22,7 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass="rounded">
-                                 <image>
-                                    <Image url="@avatar.png" />
-                                 </image>
-                              </ImageView>
+                              <Circle fx:id="circleAvatar" fill="#ebebeb" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                               <VBox alignment="CENTER_LEFT" fillWidth="false" prefHeight="43.0" prefWidth="171.0" spacing="3.0">
                                  <children>
                                     <Text fx:id="greetingText" fill="#3b415a" strokeType="OUTSIDE" strokeWidth="0.0">
