@@ -63,7 +63,7 @@ public class TaskHelper {
 
             while (rs.next()) {
                 String taskId;
-                String clockInTime = UserController.timeFormat(rs.getString("task_start"));
+                String clockInTime = UiHelper.timeFormat(rs.getString("task_start"));
                 String description = rs.getString("desc");
                 taskId = rs.getString("id");
                 String label = rs.getString("label");

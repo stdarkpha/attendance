@@ -25,7 +25,6 @@ public class Account {
 
     // Getters for all fields
 
-
     public int getId() {
         return id;
     }

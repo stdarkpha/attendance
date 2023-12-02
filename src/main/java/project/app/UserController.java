@@ -6,7 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Alert.AlertType;
@@ -20,7 +24,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.util.Locale;
 import java.util.Map;
 
 import java.sql.Connection;
@@ -28,10 +31,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 import javafx.geometry.Insets;
 
@@ -44,8 +47,8 @@ public class UserController {
     private Timeline timeline;
     private FadeTransition clockFadeTransition;
     private FadeTransition secondFadeTransition;
-
     @FXML private AnchorPane userContainer;
+    @FXML private Circle circleAvatar;
     @FXML private Text greetingText, dateToday, clockText, secondText, textLate, timeLate, textLabelTask;
     @FXML private Text clockInText, clockOutText, dayWork, averageClockIn, averageClockOut, totalLateText;
     @FXML private TextField taskLabel, taskDesc;
@@ -78,30 +81,8 @@ public class UserController {
             System.out.println("Tidak dapat memuat scene");
         }
     }
-
     //    End Scene Controller ---------------------- <<<
 
-    //    Start Navbar Methode ---------------------- <<<
-    public static String generateGreeting() {
-        LocalTime currentTime = LocalTime.now();
-
-        if (currentTime.isBefore(LocalTime.NOON)) {
-            return "Selamat Pagi, ";
-        } else if (currentTime.isBefore(LocalTime.of(13, 0))) {
-            return "Selamat Siang, ";
-        } else if (currentTime.isBefore(LocalTime.of(17, 0))) {
-            return "Selamat Sore, ";
-        } else {
-            return "Selamat Malam, ";
-        }
-    }
-    public static String generateDate() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM - yyyy", new Locale("id", "ID"));
-        return currentDate.format(formatter);
-    }
-
-    //    End Navbar Methode ---------------------- <<<
 
     //    Start Clock ---------------------- <<<
     public boolean CheckAttendance(int userId) {
@@ -126,22 +107,22 @@ public class UserController {
                     secondText.setFill(Color.web("#396AFC"));
                     timeLate.setFill(Color.web("#396AFC"));
                     textLate.setText("Kamu Telah Absen Pukul");
-                    clockInText.setText(timeFormat(clockInValue));
+                    clockInText.setText(UiHelper.timeFormat(clockInValue));
                     clockInText.setOpacity(1.0);
-                    timeLate.setText(timeFormat(clockInValue));
+                    timeLate.setText(UiHelper.timeFormat(clockInValue));
                     setClock.getStyleClass().add("active-button");
                     setClock.setText("Absen Keluar");
                 } else {
 
-                    clockInText.setText(timeFormat(clockInValue));
-                    clockOutText.setText(timeFormat(clockOut));
+                    clockInText.setText(UiHelper.timeFormat(clockInValue));
+                    clockOutText.setText(UiHelper.timeFormat(clockOut));
                     clockInText.setOpacity(1.0);
                     clockOutText.setOpacity(1.0);
 
                     clockText.setFill(Color.web("#3B415A"));
                     secondText.setFill(Color.web("#3B415A"));
                     textLate.setText("Kamu Telah Absen Pulang Jam" );
-                    timeLate.setText(timeFormat(clockOut));
+                    timeLate.setText(UiHelper.timeFormat(clockOut));
                     setClock.getStyleClass().remove("active-button");
                     setClock.setText("Absen Keluar");
                 }
@@ -201,12 +182,6 @@ public class UserController {
         }
     }
 
-    public static String timeFormat(String time) {
-        LocalTime localTime = LocalTime.parse(time);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return localTime.format(formatter);
-    }
-
     public void SetClock() {
         int id = account.getId();
         boolean attendance = CheckAttendance(id);
@@ -257,8 +232,8 @@ public class UserController {
         int DayWork = LogHelper.DayWork();
         totalLateText.setText(String.valueOf(result.get("lateCount")));
         dayWork.setText(UserDayWork +"/" + DayWork);
-        averageClockIn.setText(timeFormat(result.get("averageClockIn").toString()));
-        averageClockOut.setText(timeFormat(result.get("averageClockOut").toString()));
+        averageClockIn.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
+        averageClockOut.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
     }
     //    End Dashboard Data ---------------------- <<<
 
@@ -380,8 +355,15 @@ public class UserController {
 
     @FXML
     private void initialize() {
-        String greeting = generateGreeting();
-        String todayDate = generateDate();
+        // Set Account Avatar
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/"+account.getAvatar())).toExternalForm());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(40);
+        imageView.setFitHeight(40);
+        circleAvatar.setFill(new ImagePattern(imageView.getImage()));
+
+        String greeting = UiHelper.generateGreeting();
+        String todayDate = UiHelper.generateDate();
         greetingText.setText(greeting + account.getFirstName() + "!");
         dateToday.setText(todayDate);
 

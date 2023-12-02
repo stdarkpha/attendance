@@ -349,7 +349,7 @@
                   </VBox>
                   <HBox prefHeight="68.0" prefWidth="430.0" style="-fx-background-color: #001AB1;">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="bottomBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>

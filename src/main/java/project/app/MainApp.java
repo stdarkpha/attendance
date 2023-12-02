@@ -10,6 +10,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private Account account;
     LoginController loginController = new LoginController(this);
+    AdminController adminController = new AdminController(this);
 
     @Override
     public void start(Stage primaryStage) {
@@ -18,12 +19,11 @@ public class MainApp extends Application {
         Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm());
         this.primaryStage.getIcons().add(iconImage);
 
+        adminController.showScene();
 
-        // Show the login screen initially
-        loginController.showScene();
-
-        // Bypass login biar gk cape wkwkwk
-        loginController.performLogin();
+        // Default & Bypass
+//        loginController.showScene();
+//        loginController.performLogin();
 
         primaryStage.show();
     }
