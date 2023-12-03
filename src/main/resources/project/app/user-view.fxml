@@ -39,11 +39,15 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@logout.png" />
-                           </image>
-                        </ImageView>
+                        <Button fx:id="btnLogout" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@logout.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </HBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">

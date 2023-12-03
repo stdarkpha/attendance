@@ -2,11 +2,12 @@ package project.app;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
-import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -27,6 +28,7 @@ import javafx.scene.chart.XYChart;
 public class AdminController {
 
     private final MainApp mainApp;
+    private Parent root;
 
     @FXML
     private AnchorPane adminContainer;
@@ -44,7 +46,12 @@ public class AdminController {
     private NumberAxis todayX, todayY;
 
     @FXML
+    private Button openUser, openHome;
+
+    @FXML
     private VBox todayChart, monthChart, yearChart;
+
+    UiHelper uiHelper = new UiHelper();
 
     public AdminController(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -55,7 +62,7 @@ public class AdminController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
             loader.setController(this);
-            adminContainer = loader.load();
+            root = loader.load();
 
             String chartName = "yearChart";
             String seriesName = "Grafik Absen Masuk Tahunan";
@@ -85,6 +92,14 @@ public class AdminController {
         } catch (Exception e) {
 
             System.out.println("Tidak dapat memuat scene");
+        }
+    }
+
+    public void showScene() {
+        if (root != null) {
+            mainApp.setRoot(root);
+        } else {
+            System.out.println("Root is null");
         }
     }
 
@@ -123,10 +138,6 @@ public class AdminController {
             data.getNode().lookup(".chart-line-symbol").setStyle("-fx-background-color: #396AFC, white; -fx-background-insets: 0, 2;");
         }
         vbox.getChildren().add(lineChart);
-    }
-
-    public void showScene() {
-        mainApp.getPrimaryStage().setScene(new Scene(adminContainer));
     }
 
 
@@ -234,26 +245,32 @@ public class AdminController {
                     // By Month
                     count = rs.getInt("count_month");
                     lateCount = rs.getInt("late_count_month");
-                    String avgClockInStr = rs.getString("avg_clock_in_month");
-                    String avgClockOutStr = rs.getString("avg_clock_out_month");
-                    averageClockIn = LocalTime.parse(avgClockInStr);
-                    averageClockOut = LocalTime.parse(avgClockOutStr);
+                    if(count != 0) {
+                        String avgClockInStr = rs.getString("avg_clock_in_month");
+                        String avgClockOutStr = rs.getString("avg_clock_out_month");
+                        averageClockIn = LocalTime.parse(avgClockInStr);
+                        averageClockOut = LocalTime.parse(avgClockOutStr);
+                    }
 
                     // By Today
                     countToday = rs.getInt("count_today");
                     lateCountToday = rs.getInt("late_count_today");
-                    String avgClockInTodayStr = rs.getString("avg_clock_in_today");
-                    String avgClockOutTodayStr = rs.getString("avg_clock_out_today");
-                    averageClockInToday = LocalTime.parse(avgClockInTodayStr);
-                    averageClockOutToday = LocalTime.parse(avgClockOutTodayStr);
+                    if (countToday != 0) {
+                        String avgClockInTodayStr = rs.getString("avg_clock_in_today");
+                        String avgClockOutTodayStr = rs.getString("avg_clock_out_today");
+                        averageClockInToday = LocalTime.parse(avgClockInTodayStr);
+                        averageClockOutToday = LocalTime.parse(avgClockOutTodayStr);
+                    }
 
                     // By Year
                     countYear = rs.getInt("count_year");
                     lateCountYear = rs.getInt("late_count_year");
-                    String avgClockInYearStr = rs.getString("avg_clock_in_year");
-                    String avgClockOutYearStr = rs.getString("avg_clock_out_year");
-                    averageClockInYear = LocalTime.parse(avgClockInYearStr);
-                    averageClockOutYear = LocalTime.parse(avgClockOutYearStr);
+                    if (countYear != 0) {
+                        String avgClockInYearStr = rs.getString("avg_clock_in_year");
+                        String avgClockOutYearStr = rs.getString("avg_clock_out_year");
+                        averageClockInYear = LocalTime.parse(avgClockInYearStr);
+                        averageClockOutYear = LocalTime.parse(avgClockOutYearStr);
+                    }
 
                 }
 
@@ -302,27 +319,34 @@ public class AdminController {
         greetingText.setText(greeting + "Administrator!");
         dateToday.setText(todayDate);
 
-        System.out.println("total divisi" + getDivision() + "total Employees" + getEmployees());
         textTotalEmployee.setText(String.valueOf(getEmployees()));
         textTotalDivision.setText(String.valueOf(getDivision()));
 
         Map<String, Object> result = monthDataVal();
 
         textCountToday.setText(String.valueOf(result.get("countToday")));
-        textInToday.setText(UiHelper.timeFormat(result.get("averageClockInToday").toString()));
-        textOutToday.setText(UiHelper.timeFormat(result.get("averageClockOutToday").toString()));
+        textInToday.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockInToday"))));
+        textOutToday.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockOutToday"))));
         textLateToday.setText(String.valueOf(result.get("lateCountToday")));
 
         textCountMonth.setText(String.valueOf(result.get("count")));
-        textInMonth.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
-        textOutMonth.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
+        textInMonth.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockIn"))));
+        textOutMonth.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockOut"))));
         textLateMonth.setText(String.valueOf(result.get("lateCount")));
 
         textCountYear.setText(String.valueOf(result.get("countYear")));
-        textInYear.setText(UiHelper.timeFormat(result.get("averageClockInYear").toString()));
-        textOutYear.setText(UiHelper.timeFormat(result.get("averageClockOutYear").toString()));
+        textInYear.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockInYear"))));
+        textOutYear.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockOutYear"))));
         textLateYear.setText(String.valueOf(result.get("lateCountYear")));
 
-        System.out.println(result);
+//        System.out.println(result);
+
+        openHome.setOnAction(e -> {
+            mainApp.navigation("home-admin");
+        });
+        openUser.setOnAction(e -> {
+            mainApp.navigation("list-user");
+        });
+
     }
 }

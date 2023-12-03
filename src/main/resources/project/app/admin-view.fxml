@@ -453,11 +453,15 @@
                <children>
                   <VBox fx:id="bottomBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Home.png" />
-                           </image>
-                        </ImageView>
+                        <Button fx:id="openHome" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                           <graphic>
+                              <ImageView pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -465,11 +469,15 @@
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView layoutX="10.0" layoutY="10.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Task.png" />
-                           </image>
-                        </ImageView>
+                        <Button fx:id="openUser" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                           <graphic>
+                              <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Task.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -494,107 +502,5 @@
             </HBox>
          </children>
       </VBox>
-      <Pane fx:id="form" prefWidth="430.0" AnchorPane.bottomAnchor="-500.0">
-         <children>
-            <VBox prefHeight="55.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-background-radius: 30 30 0 0;">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="430.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fx:id="textLabelTask" fill="#4d4e66" strokeType="OUTSIDE" strokeWidth="0.0" text="Tambah Tugas Baru" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Roboto Bold" size="14.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" layoutX="69.0" layoutY="10.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Button fx:id="closeTask" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: red; -fx-background-radius: 50;" text="X Tutup" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Roboto Medium" size="10.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets bottom="6.0" left="12.0" right="12.0" top="6.0" />
-                                 </padding>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Tugas">
-                           <font>
-                              <Font name="Roboto Light" size="14.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="taskLabel">
-                           <padding>
-                              <Insets bottom="5.0" top="5.0" />
-                           </padding>
-                        </TextField>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="40.0" layoutY="75.0" spacing="5.0">
-                     <children>
-                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Deskripsi">
-                           <font>
-                              <Font name="Roboto Light" size="14.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="taskDesc">
-                           <padding>
-                              <Insets bottom="5.0" top="5.0" />
-                           </padding>
-                        </TextField>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="40.0" layoutY="143.0" spacing="5.0">
-                     <children>
-                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
-                           <font>
-                              <Font name="Roboto Light" size="14.0" />
-                           </font>
-                        </Text>
-                        <ChoiceBox fx:id="choiceBox" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
-                  <HBox fx:id="btnContainer" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="taskPushButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="376.0" style="-fx-background-color: #3665F0; -fx-background-radius: 5;" text="Tambah Tugas" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Roboto Medium" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="8.0" left="12.0" right="12.0" top="8.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-               </padding>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" height="175.0" radius="87.0" width="175.0">
-                     <color>
-                        <Color green="0.015333333052694798" blue="0.23000000417232513" opacity="0.20000000298023224" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </VBox>
-         </children>
-      </Pane>
    </children>
 </AnchorPane>

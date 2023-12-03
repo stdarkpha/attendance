@@ -103,9 +103,7 @@ public class TaskHelper {
                     System.out.println("Task ID: " + finalTaskId);
                     UserController.setOperationType("update");
                     setSelectedTask(taskId, label, description, status);
-
                     userController.modalTask();
-
                 });
 
                 userController.addTaskVBox(vbox);

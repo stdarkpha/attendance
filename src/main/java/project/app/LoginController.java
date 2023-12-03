@@ -61,15 +61,15 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-//        Account account = login(username, password);
-        Account account = login("123", "admin123");
+        Account account = login(username, password);
+//        Account account = login("123", "admin123");
 
         if (account != null) {
             if (account.getRole().equals("admin")) {
-                mainApp.switchToMainMenu(account, "user");
+                mainApp.navigation("home-admin");
 //                System.out.println("Berhasil Login sebagai Admin");
             } else {
-                mainApp.switchToMainMenu(account,"");
+                mainApp.navigationUser(account,"");
 //                System.out.println("Berhasil Login sebagai User");
             }
         } else {
@@ -87,7 +87,7 @@ public class LoginController {
     }
 
 //    Encrypt Password ke SHA-256
-    private String encryptPassword(String password) {
+    static String encryptPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));

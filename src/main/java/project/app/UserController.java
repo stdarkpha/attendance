@@ -3,6 +3,8 @@ package project.app;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.scene.Parent;
+
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -42,7 +44,8 @@ public class UserController {
     SettingHelper setting = new SettingHelper();
     private final LocalTime startTime = setting.getClockIn();
     private final MainApp mainApp;
-    private final Account account;
+    private Parent root;
+    private Account account;
     private static String operationType;
     private Timeline timeline;
     private FadeTransition clockFadeTransition;
@@ -52,11 +55,12 @@ public class UserController {
     @FXML private Text greetingText, dateToday, clockText, secondText, textLate, timeLate, textLabelTask;
     @FXML private Text clockInText, clockOutText, dayWork, averageClockIn, averageClockOut, totalLateText;
     @FXML private TextField taskLabel, taskDesc;
-    @FXML private Button setClock, addTask, closeTask, taskPushButton;
+    @FXML private Button setClock, addTask, closeTask, taskPushButton, btnLogout;
     @FXML private Pane form;
     @FXML private VBox taskContainer;
     @FXML private HBox btnContainer;
     @FXML private ChoiceBox<String> choiceBox;
+
 
     //    Start Scene Controller ---------------------- <<<
     public UserController(MainApp mainApp, Account account) {
@@ -66,14 +70,18 @@ public class UserController {
     }
 
     public void showScene() {
-        mainApp.getPrimaryStage().setScene(new Scene(userContainer));
+        if (root != null) {
+            mainApp.setRoot(root);
+        } else {
+            System.out.println("Root is null");
+        }
     }
 
     private void loadFXML() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("user-view.fxml"));
             loader.setController(this);
-            userContainer = loader.load();
+            root = loader.load();
 
             TaskHelper.createTaskVBoxes(this, account.getId());
         } catch (Exception e) {
@@ -356,7 +364,7 @@ public class UserController {
     @FXML
     private void initialize() {
         // Set Account Avatar
-        Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/"+account.getAvatar())).toExternalForm());
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(40);
         imageView.setFitHeight(40);
@@ -426,6 +434,10 @@ public class UserController {
         closeTask.setOnAction(e -> {
             modalTask();
             removeBtnDelete();
+        });
+
+        btnLogout.setOnAction(e -> {
+            mainApp.navigationUser(account, "logout");
         });
 
         taskPushButton.setOnAction(e -> {

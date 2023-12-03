@@ -44,11 +44,13 @@ public class LogHelper {
 
                 if (resultSet.next()) {
                     count = resultSet.getInt("count");
-                    lateCount = resultSet.getInt("late_count");
-                    String avgClockInStr = resultSet.getString("avg_clock_in");
-                    String avgClockOutStr = resultSet.getString("avg_clock_out");
-                    averageClockIn = LocalTime.parse(avgClockInStr);
-                    averageClockOut = LocalTime.parse(avgClockOutStr);
+                    if(count != 0) {
+                        lateCount = resultSet.getInt("late_count");
+                        String avgClockInStr = resultSet.getString("avg_clock_in");
+                        String avgClockOutStr = resultSet.getString("avg_clock_out");
+                        averageClockIn = LocalTime.parse(avgClockInStr);
+                        averageClockOut = LocalTime.parse(avgClockOutStr);
+                    }
                 }
 
                 clockInResultSet.close();

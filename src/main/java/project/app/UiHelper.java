@@ -10,9 +10,9 @@ public class UiHelper {
     public static String generateGreeting() {
         LocalTime currentTime = LocalTime.now();
 
-        if (currentTime.isBefore(LocalTime.NOON)) {
+        if (currentTime.isBefore(LocalTime.of(10, 0))) {
             return "Selamat Pagi, ";
-        } else if (currentTime.isBefore(LocalTime.of(14, 0))) {
+        } else if (currentTime.isAfter(LocalTime.of(10, 0))) {
             return "Selamat Siang, ";
         } else if (currentTime.isAfter(LocalTime.of(15, 0))) {
             return "Selamat Sore, ";
