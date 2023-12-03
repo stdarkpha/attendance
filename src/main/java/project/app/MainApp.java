@@ -13,8 +13,6 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private Account account;
     LoginController loginController = new LoginController(this);
-    AdminController adminController = new AdminController(this);
-    AdminListUserController adminListUserController = new AdminListUserController(this);
 
     @Override
     public void start(Stage primaryStage) {
@@ -22,14 +20,13 @@ public class MainApp extends Application {
         this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
         Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm());
         this.primaryStage.getIcons().add(iconImage);
-//        adminListUserController.showScene();
         Scene scene = new Scene(new AnchorPane());
         this.primaryStage.setScene(scene);
-//        adminListUserController.showScene();
+        primaryStage.setResizable(false);
 
-        // Default & Bypass
         loginController.showScene();
-//        loginController.performLogin();
+        // Bypass Login
+        // loginController.performLogin();
 
         primaryStage.show();
     }
@@ -45,10 +42,17 @@ public class MainApp extends Application {
     public void navigation(String menu) {
         switch (menu) {
             case "home-admin":
+                AdminController adminController = new AdminController(this);
                 adminController.showScene();
                 break;
             case "list-user":
+                AdminListUserController adminListUserController = new AdminListUserController(this);
                 adminListUserController.showScene();
+                break;
+            case "logout":
+                this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
+                loginController.showScene();
+                this.account = null;
                 break;
             default:
                 break;
@@ -56,25 +60,19 @@ public class MainApp extends Application {
     }
 
     public void navigationUser(Account account, String menu) {
-        UserController userController = new UserController(this, account);
         String fullName = account.getFullName();
 
-        // Route Setting
         switch (menu) {
             case "logout":
                 this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
                 loginController.showScene();
                 this.account = null;
                 break;
-            case "user":
-                primaryStage.setTitle("Dashboard - " + fullName);
-                userController.showScene();
-                break;
-
             case "list-user":
 //                adminListUserController.showScene();
                 break;
             default:
+                UserController userController = new UserController(this, account);
                 primaryStage.setTitle("Dashboard - " + fullName);
                 userController.showScene();
                 break;

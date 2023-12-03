@@ -66,14 +66,15 @@ public class LoginController {
 
         if (account != null) {
             if (account.getRole().equals("admin")) {
+                usernameField.setText("");
+                passwordField.setText("");
                 mainApp.navigation("home-admin");
-//                System.out.println("Berhasil Login sebagai Admin");
             } else {
+                usernameField.setText("");
+                passwordField.setText("");
                 mainApp.navigationUser(account,"");
-//                System.out.println("Berhasil Login sebagai User");
             }
         } else {
-            // Login failed
             showErrorMessage();
         }
     }

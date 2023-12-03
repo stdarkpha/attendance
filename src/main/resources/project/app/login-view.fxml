@@ -23,7 +23,7 @@
             </font>
          </Text>
          <TextFlow lineSpacing="5.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
-            <Text fill="#a9a9b3" strokeType="OUTSIDE" strokeWidth="0.0" text="Silahkan masuk untuk memulai absen dan memasukkan aktifitas harianmu.">
+            <Text fill="#757580" strokeType="OUTSIDE" strokeWidth="0.0" text="Silahkan masuk untuk memulai absen dan memasukkan aktifitas harianmu.">
                <font>
                   <Font name="Roboto Reguler" size="14.0" />
                </font>

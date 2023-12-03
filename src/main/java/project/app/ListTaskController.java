@@ -7,29 +7,26 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Text;
-import javafx.scene.control.ChoiceBox;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Objects;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
-public class AdminListUserController {
+public class ListTaskController {
     private final MainApp mainApp;
     private Parent root;
     private static String operationType;
@@ -61,7 +58,7 @@ public class AdminListUserController {
     @FXML
     private TextField firstName, lastName, phone, mail, password;
 
-    public AdminListUserController(MainApp mainApp) {
+    public ListTaskController(MainApp mainApp) {
         this.mainApp = mainApp;
         loadFXML();
     }

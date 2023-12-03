@@ -45,8 +45,14 @@
                                  <image>
                                     <Image url="@logout.png" />
                                  </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </children>
                   </HBox>
@@ -369,7 +375,7 @@
                            <children>
                               <ImageView layoutX="10.0" layoutY="10.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@Task.png" />
+                                    <Image url="@Activity.png" />
                                  </image>
                               </ImageView>
                            </children>

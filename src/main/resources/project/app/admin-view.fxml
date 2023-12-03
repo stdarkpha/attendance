@@ -39,11 +39,21 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@logout.png" />
-                           </image>
-                        </ImageView>
+                        <Button fx:id="btnLogout" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@logout.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
                      </children>
                   </HBox>
                </children>
@@ -473,7 +483,7 @@
                            <graphic>
                               <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@Task.png" />
+                                    <Image url="@List-Users.png" />
                                  </image>
                               </ImageView>
                            </graphic>

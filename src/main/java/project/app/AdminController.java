@@ -46,7 +46,7 @@ public class AdminController {
     private NumberAxis todayX, todayY;
 
     @FXML
-    private Button openUser, openHome;
+    private Button openUser, openHome, btnLogout;
 
     @FXML
     private VBox todayChart, monthChart, yearChart;
@@ -341,6 +341,9 @@ public class AdminController {
 
 //        System.out.println(result);
 
+        btnLogout.setOnAction(e -> {
+            mainApp.navigation("logout");
+        });
         openHome.setOnAction(e -> {
             mainApp.navigation("home-admin");
         });
