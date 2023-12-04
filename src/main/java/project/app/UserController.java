@@ -240,8 +240,10 @@ public class UserController {
         int DayWork = LogHelper.DayWork();
         totalLateText.setText(String.valueOf(result.get("lateCount")));
         dayWork.setText(UserDayWork +"/" + DayWork);
-        averageClockIn.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
-        averageClockOut.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
+        if (UserDayWork != 0) {
+            averageClockIn.setText(UiHelper.timeFormat(result.get("averageClockIn").toString()));
+            averageClockOut.setText(UiHelper.timeFormat(result.get("averageClockOut").toString()));
+        }
     }
     //    End Dashboard Data ---------------------- <<<
 
@@ -363,12 +365,13 @@ public class UserController {
 
     @FXML
     private void initialize() {
-        // Set Account Avatar
-        Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(40);
-        imageView.setFitHeight(40);
-        circleAvatar.setFill(new ImagePattern(imageView.getImage()));
+        if(account.getAvatar() != null) {
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(40);
+            imageView.setFitHeight(40);
+            circleAvatar.setFill(new ImagePattern(imageView.getImage()));
+        }
 
         String greeting = UiHelper.generateGreeting();
         String todayDate = UiHelper.generateDate();
