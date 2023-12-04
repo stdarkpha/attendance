@@ -287,12 +287,6 @@ public class AdminListUserController {
                 divisionMap.put(nameDivision, idDivision);
                 reverseDivisionMap.put(idDivision, nameDivision);
             }
-
-//            choiceDivision.setOnAction(event -> {
-//                String selectedDivision = choiceDivision.getValue();
-//                int divisionId = divisionMap.get(selectedDivision);
-//            });
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

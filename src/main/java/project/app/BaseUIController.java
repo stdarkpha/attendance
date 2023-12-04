@@ -2,16 +2,13 @@ package project.app;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Parent;
+import java.io.IOException;
 
 
 public class BaseUIController {
-
     private final MainApp mainApp;
-
-    @FXML
-    private AnchorPane BaseContainer;
+    private Parent root;
 
     public BaseUIController(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -19,17 +16,22 @@ public class BaseUIController {
     }
 
     public void showScene() {
-        mainApp.getPrimaryStage().setScene(new Scene(BaseContainer));
+        if (root != null) {
+            mainApp.setRoot(root);
+        } else {
+            System.out.println("Root is null");
+        }
     }
 
     private void loadFXML() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("list-user-view.fxml"));
             loader.setController(this);
-            BaseContainer = loader.load();
-        } catch (Exception e) {
+            root = loader.load();
 
-            System.out.println("Tidak dapat memuat scene");
+        } catch (IOException e) {
+            System.out.println("Failed to load FXML file: admin-view.fxml");
+            e.printStackTrace();
         }
     }
 

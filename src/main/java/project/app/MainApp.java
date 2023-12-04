@@ -51,6 +51,10 @@ public class MainApp extends Application {
                 AdminListUserController adminListUserController = new AdminListUserController(this);
                 adminListUserController.showScene();
                 break;
+//            case "setting":
+//                SettingController settingController = new SettingController(this);
+//                settingController.showScene();
+//                break;
             case "logout":
                 this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
                 loginController.showScene();
@@ -74,6 +78,10 @@ public class MainApp extends Application {
                 ListTaskController listTaskController = new ListTaskController(this, account);
                 primaryStage.setTitle("Dashboard - " + fullName);
                 listTaskController.showScene();
+                break;
+            case "setting":
+                SettingController settingController = new SettingController(this, account);
+                settingController.showScene();
                 break;
             default:
                 UserController userController = new UserController(this, account);

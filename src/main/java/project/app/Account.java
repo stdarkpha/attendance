@@ -1,8 +1,15 @@
 package project.app;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Account {
     private int id;
-    private String uid;
+    private final String uid;
     private String firstName;
     private String lastName;
     private String phone;
@@ -10,8 +17,9 @@ public class Account {
     private String email;
     private String gender;
     private String role;
+    private final int divisionId;
 
-    public Account(int id, String uid, String firstName, String lastName, String phone, String avatar, String email, String gender, String role) {
+    public Account(int id, String uid, String firstName, String lastName, String phone, String avatar, String email, String gender, String role, int idDivision) {
         this.id = id;
         this.uid = uid;
         this.firstName = firstName;
@@ -21,6 +29,9 @@ public class Account {
         this.email = email;
         this.gender = gender;
         this.role = role;
+        this.divisionId = idDivision;
+
+        addDivisionOption();
     }
 
     // Getters for all fields
@@ -37,68 +48,63 @@ public class Account {
         return uid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAvatar() {
         return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getGender() {
         return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getRole() {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     // Example of a getter for the full name
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    private Map<String, Integer> divisionMap = new HashMap<>();
+    private Map<Integer, String> reverseDivisionMap = new HashMap<>();
+
+    public String getDivisionVal() {
+        return reverseDivisionMap.get(divisionId);
+    }
+
+    public void addDivisionOption() {
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String query = "SELECT * FROM division";
+            stmt = conn.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idDivision = rs.getInt("id");
+                String nameDivision = rs.getString("name");
+                double startSalary = rs.getDouble("start_salary");
+                double dailyBonus = rs.getDouble("daily_bonus");
+
+                divisionMap.put(nameDivision, idDivision);
+                reverseDivisionMap.put(idDivision, nameDivision);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

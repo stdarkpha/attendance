@@ -23,8 +23,6 @@ import java.util.Map;
 
 import javafx.scene.chart.XYChart;
 
-
-
 public class AdminController {
 
     private final MainApp mainApp;

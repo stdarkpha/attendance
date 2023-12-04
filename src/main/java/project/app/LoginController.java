@@ -68,11 +68,11 @@ public class LoginController {
             if (account.getRole().equals("admin")) {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigation("home-admin");
+                mainApp.navigation("setting");
             } else {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigationUser(account,"");
+                mainApp.navigationUser(account,"setting");
             }
         } else {
             showErrorMessage();
@@ -127,8 +127,9 @@ public class LoginController {
                 String email = rs.getString("email");
                 String gender = rs.getString("gender");
                 String role = rs.getString("role");
+                int division = rs.getInt("division_id");
 
-                account = new Account(id, uid, firstName, lastName, phone, avatar, email, gender, role);
+                account = new Account(id, uid, firstName, lastName, phone, avatar, email, gender, role, division);
 
 //                System.out.println(account.getFullName());
             }
