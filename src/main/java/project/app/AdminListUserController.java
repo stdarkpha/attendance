@@ -39,7 +39,7 @@ public class AdminListUserController {
     @FXML
     private AnchorPane ListUserContainer;
     @FXML
-    private Button openUser, openHome, buttonAddUser, closeTask, taskPushButton, btnLogout;
+    private Button openUser, openHome, buttonAddUser, closeTask, PushButton, btnLogout;
 
     @FXML
     private VBox containerListUser;
@@ -47,7 +47,7 @@ public class AdminListUserController {
     @FXML private Pane form;
 
     @FXML
-    private Text greetingText, dateToday, textTotalEmployee;
+    private Text greetingText, dateToday, textTotalEmployee, textLabelForm;
 
     @FXML
     private ChoiceBox<String> choiceDivision, choiceGender;
@@ -120,27 +120,27 @@ public class AdminListUserController {
         if (form.getTranslateY() == 0.0) {
             fromY = 0.0;
             toY = -700.0;
-            System.out.println("buka");
-//            if (operationType.equals("add")) {
-//                textLabelTask.setText("Tambah Tugas Baru");
-//                taskPushButton.setText("Simpan Tugas");
-//                taskPushButton.setStyle("-fx-background-color: #3665F0;");
-//                taskLabel.setText("");
-//                taskDesc.setText("");
-//                choiceBox.setValue(null);
-//            } else if (operationType.equals("update")) {
-//                taskPushButton.setStyle("-fx-background-color: #f58f0d;");
-//                taskPushButton.setText("Simpan Perubahan");
-//                textLabelTask.setText("Form Ubah Tugas");
-//                taskLabel.setText(TaskHelper.getSelectedLabel());
-//                taskDesc.setText(TaskHelper.getSelectedDescription());
-//                choiceBox.setValue(TaskHelper.getSelectedStatus());
-//                addDeleteButton();
-//            }
+            if (operationType.equals("add")) {
+                textLabelForm.setText("Tambah Karyawan Baru");
+                PushButton.setText("Simpan Data");
+                PushButton.setStyle("-fx-background-color: #3665F0;");
+            } else if (operationType.equals("update")) {
+                PushButton.setStyle("-fx-background-color: #f58f0d;");
+                PushButton.setText("Simpan Perubahan");
+                textLabelForm.setText("Form Ubah Data Karyawan");
+            }
         } else {
             fromY = -700.0;
             toY = 0.0;
-            System.out.println("tutup");
+
+            firstName.setText("");
+            lastName.setText("");
+            birthDate.setValue(null);
+            phone.setText("");
+            mail.setText("");
+            choiceGender.setValue(null);
+            choiceDivision.setValue(null);
+            password.setText("");
         }
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(.4), form);
@@ -288,10 +288,10 @@ public class AdminListUserController {
                 reverseDivisionMap.put(idDivision, nameDivision);
             }
 
-            choiceDivision.setOnAction(event -> {
-                String selectedDivision = choiceDivision.getValue();
-                int divisionId = divisionMap.get(selectedDivision);
-            });
+//            choiceDivision.setOnAction(event -> {
+//                String selectedDivision = choiceDivision.getValue();
+//                int divisionId = divisionMap.get(selectedDivision);
+//            });
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -465,7 +465,7 @@ public class AdminListUserController {
             modalTask();
         });
 
-        taskPushButton.setOnAction(e -> {
+        PushButton.setOnAction(e -> {
             submitUser();
         });
 
