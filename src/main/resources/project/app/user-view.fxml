@@ -241,7 +241,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" layoutX="69.0" layoutY="10.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="addTask" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #2B46D0; -fx-background-radius: 50;" text="Tambah Tugas +" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="addTask" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #2B46D0; -fx-background-radius: 50;" text="Tambah Aktivitas+" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Roboto Medium" size="10.0" />
                                        </font>
@@ -258,7 +258,7 @@
                         </HBox>
                         <ScrollPane hbarPolicy="NEVER" prefHeight="197.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" styleClass="scroll-bar" stylesheets="@style.css">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="370.0" style="-fx-background-color: #ffffff;" styleClass="scroll-bar" stylesheets="@style.css">
                                  <children>
                                     <VBox fx:id="taskContainer" alignment="TOP_CENTER" prefWidth="370.0" spacing="15.0">
                                        <children>
@@ -357,45 +357,60 @@
                         <Insets left="30.0" right="30.0" top="30.0" />
                      </VBox.margin>
                   </VBox>
-                  <HBox prefHeight="68.0" prefWidth="430.0" style="-fx-background-color: #001AB1;">
+                  <HBox fx:id="containerMenu" prefHeight="50.0" prefWidth="430.0" style="-fx-background-color: #001AB1;">
                      <children>
-                        <VBox fx:id="bottomBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Home.png" />
-                                 </image>
-                              </ImageView>
+                              <Button fx:id="openHome" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Home.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </VBox>
-                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView layoutX="10.0" layoutY="10.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Activity.png" />
-                                 </image>
-                              </ImageView>
+                              <Button fx:id="openTask" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Activity.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </VBox>
-                        <VBox alignment="CENTER" layoutX="110.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Setting.png" />
-                                 </image>
-                              </ImageView>
+                              <Button fx:id="openSetting" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Setting.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </VBox>
                      </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
                   </HBox>
                </children>
                <effect>

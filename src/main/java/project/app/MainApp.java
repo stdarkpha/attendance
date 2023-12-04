@@ -24,10 +24,12 @@ public class MainApp extends Application {
         this.primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 
+
         loginController.showScene();
         // Bypass Login
-        // loginController.performLogin();
+         loginController.performLogin();
 
+//        navigationUser(this.account, "list-task");
         primaryStage.show();
     }
 
@@ -68,8 +70,10 @@ public class MainApp extends Application {
                 loginController.showScene();
                 this.account = null;
                 break;
-            case "list-user":
-//                adminListUserController.showScene();
+            case "list-task":
+                ListTaskController listTaskController = new ListTaskController(this, account);
+                primaryStage.setTitle("Dashboard - " + fullName);
+                listTaskController.showScene();
                 break;
             default:
                 UserController userController = new UserController(this, account);

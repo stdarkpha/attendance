@@ -55,7 +55,7 @@ public class UserController {
     @FXML private Text greetingText, dateToday, clockText, secondText, textLate, timeLate, textLabelTask;
     @FXML private Text clockInText, clockOutText, dayWork, averageClockIn, averageClockOut, totalLateText;
     @FXML private TextField taskLabel, taskDesc;
-    @FXML private Button setClock, addTask, closeTask, taskPushButton, btnLogout;
+    @FXML private Button setClock, addTask, closeTask, taskPushButton, btnLogout, openHome, openTask, openSetting;
     @FXML private Pane form;
     @FXML private VBox taskContainer;
     @FXML private HBox btnContainer;
@@ -267,16 +267,13 @@ public class UserController {
             toY = -500.0;
             System.out.println("buka");
             if (operationType.equals("add")) {
-                textLabelTask.setText("Tambah Tugas Baru");
-                taskPushButton.setText("Simpan Tugas");
+                textLabelTask.setText("Tambah Aktifitas Baru");
+                taskPushButton.setText("Simpan Aktifitas");
                 taskPushButton.setStyle("-fx-background-color: #3665F0;");
-                taskLabel.setText("");
-                taskDesc.setText("");
-                choiceBox.setValue(null);
             } else if (operationType.equals("update")) {
                 taskPushButton.setStyle("-fx-background-color: #f58f0d;");
                 taskPushButton.setText("Simpan Perubahan");
-                textLabelTask.setText("Form Ubah Tugas");
+                textLabelTask.setText("Form Ubah Aktifitas");
                 taskLabel.setText(TaskHelper.getSelectedLabel());
                 taskDesc.setText(TaskHelper.getSelectedDescription());
                 choiceBox.setValue(TaskHelper.getSelectedStatus());
@@ -286,6 +283,9 @@ public class UserController {
             fromY = -500.0;
             toY = 0.0;
             System.out.println("tutup");
+            taskLabel.setText("");
+            taskDesc.setText("");
+            choiceBox.setValue(null);
         }
 
         TranslateTransition transition = new TranslateTransition(Duration.seconds(.4), form);
@@ -441,6 +441,13 @@ public class UserController {
 
         btnLogout.setOnAction(e -> {
             mainApp.navigationUser(account, "logout");
+        });
+
+        openHome.setOnAction(e -> {
+            mainApp.navigationUser(account, "");
+        });
+        openTask.setOnAction(e -> {
+            mainApp.navigationUser(account, "list-task");
         });
 
         taskPushButton.setOnAction(e -> {
