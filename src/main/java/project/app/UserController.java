@@ -449,6 +449,9 @@ public class UserController {
         openTask.setOnAction(e -> {
             mainApp.navigationUser(account, "list-task");
         });
+        openSetting.setOnAction(e -> {
+            mainApp.navigationUser(account, "setting");
+        });
 
         taskPushButton.setOnAction(e -> {
             String label = taskLabel.getText();

@@ -165,7 +165,7 @@ public class ListTaskController {
                 containerListUser.getChildren().add(hbox);
             }
 
-            TotalTask.setText("Daftar Tugas ("+taskCount+")");
+            TotalTask.setText("Daftar Aktifitas ("+taskCount+")");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -191,6 +191,8 @@ public class ListTaskController {
         openHome.setOnAction(e -> {
             mainApp.navigationUser(account, "");
         });
-
+        openSetting.setOnAction(e -> {
+            mainApp.navigationUser(account, "setting");
+        });
     }
 }

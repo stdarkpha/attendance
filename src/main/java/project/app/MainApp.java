@@ -29,7 +29,7 @@ public class MainApp extends Application {
         // Bypass Login
          loginController.performLogin();
 
-//        navigationUser(this.account, "list-task");
+        // navigationUser(this.account, "list-task");
         primaryStage.show();
     }
 

@@ -68,11 +68,11 @@ public class LoginController {
             if (account.getRole().equals("admin")) {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigation("setting");
+                mainApp.navigation("home-admin");
             } else {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigationUser(account,"setting");
+                mainApp.navigationUser(account,"");
             }
         } else {
             showErrorMessage();
