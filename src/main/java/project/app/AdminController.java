@@ -16,6 +16,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -315,8 +316,17 @@ public class AdminController {
 
     @FXML
     private void initialize() {
-        if(account.getAvatar() != null) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+        if (account.getAvatar() != null) {
+            String imagePath = "image/" + account.getAvatar();
+            File imageFile = new File(imagePath);
+
+            if (!imageFile.exists()) {
+                // Handle the case when the image file is not found
+                System.err.println("Image file not found1935: " + imagePath);
+                return;
+            }
+
+            Image image = new Image(imageFile.toURI().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(40);
             imageView.setFitHeight(40);

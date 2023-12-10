@@ -26,6 +26,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 
 import java.sql.Connection;
@@ -365,8 +368,17 @@ public class UserController {
 
     @FXML
     private void initialize() {
-        if(account.getAvatar() != null) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+        if (account.getAvatar() != null) {
+            String imagePath = "image/" + account.getAvatar();
+            File imageFile = new File(imagePath);
+
+            if (!imageFile.exists()) {
+                // Handle the case when the image file is not found
+                System.err.println("Image file not found1935: " + imagePath);
+                return;
+            }
+
+            Image image = new Image(imageFile.toURI().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(40);
             imageView.setFitHeight(40);

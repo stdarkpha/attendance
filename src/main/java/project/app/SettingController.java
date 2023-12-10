@@ -200,8 +200,17 @@ public class SettingController {
 
     @FXML
     private void initialize() {
-        if(account.getAvatar() != null) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+        if (account.getAvatar() != null) {
+            String imagePath = "image/" + account.getAvatar();
+            File imageFile = new File(imagePath);
+
+            if (!imageFile.exists()) {
+                // Handle the case when the image file is not found
+                System.err.println("Image file not found1935: " + imagePath);
+                return;
+            }
+
+            Image image = new Image(imageFile.toURI().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(40);
             imageView.setFitHeight(40);
@@ -333,10 +342,20 @@ public class SettingController {
             if (selectedFile != null) {
                 try {
                     // Save the selected image to the src folder
-                    Path srcPath = selectedFile.toPath();
-                    URI destUri = Objects.requireNonNull(getClass().getResource("/project/app/")).toURI();
-                    Path destPath = Paths.get(destUri).resolve(selectedFile.getName());
-                    Files.copy(srcPath, destPath, StandardCopyOption.REPLACE_EXISTING);
+                    String currentDir = System.getProperty("user.dir");
+
+                    // Create a new image directory in the current working directory
+                    File imageDirectory = new File(currentDir, "image");
+                    if (!imageDirectory.exists()) {
+                        imageDirectory.mkdirs();
+                    }
+
+                    // Determine the destination file path
+                    String destFilePath = selectedFile.getName();
+                    File destFile = new File(imageDirectory, destFilePath);
+
+                    // Copy the selected image to the image directory
+                    Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                     String query = "UPDATE users SET avatar = ? WHERE id = ?";
                     PreparedStatement stmt = conn.prepareStatement(query);
@@ -352,8 +371,6 @@ public class SettingController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             } else {
