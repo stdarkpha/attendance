@@ -17,7 +17,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
+        this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.0");
         Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm());
         this.primaryStage.getIcons().add(iconImage);
         Scene scene = new Scene(new AnchorPane());
@@ -27,9 +27,8 @@ public class MainApp extends Application {
 
         loginController.showScene();
         // Bypass Login
-         loginController.performLogin();
+//        loginController.performLogin();
 
-        // navigationUser(this.account, "list-task");
         primaryStage.show();
     }
 
@@ -43,28 +42,31 @@ public class MainApp extends Application {
 
     public void navigation(Account account, String menu) {
         String fullName = account.getFullName();
-
+        // Program Router
         switch (menu) {
             case "logout":
-                this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
+                this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.0");
                 loginController.showScene();
                 this.account = null;
                 break;
             case "list-task":
                 ListTaskController listTaskController = new ListTaskController(this, account);
-                primaryStage.setTitle("Dashboard - " + fullName);
+                primaryStage.setTitle("Daftar Aktifitas - " + fullName);
                 listTaskController.showScene();
                 break;
             case "setting":
                 SettingController settingController = new SettingController(this, account);
+                primaryStage.setTitle("Pengaturan - " + SettingHelper.getAppName());
                 settingController.showScene();
                 break;
             case "home-admin":
                 AdminController adminController = new AdminController(this, account);
+                primaryStage.setTitle("Analitik - " + SettingHelper.getAppName());
                 adminController.showScene();
                 break;
             case "list-user":
                 AdminListUserController adminListUserController = new AdminListUserController(this, account);
+                primaryStage.setTitle("Daftar Karyawan - " + SettingHelper.getAppName());
                 adminListUserController.showScene();
                 break;
             default:

@@ -10,9 +10,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -25,10 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -187,6 +186,18 @@ public class SettingController {
         containerSetting.getChildren().addFirst(salaryBox);
     }
 
+    private void adminData() {
+        texth2.setText(SettingHelper.getAppName());
+        textlabel1.setText("Total Karyawan");
+        textlabel2.setText("Jam Masuk");
+        textlabel3.setText("Jam Pulang");
+        textlabel4.setText("Total Divisi");
+        textdata1.setText(String.valueOf(AdminController.getEmployees()));
+        textdata2.setText(String.valueOf(SettingHelper.getClockIn()));
+        textdata3.setText(String.valueOf(SettingHelper.getClockOut()));
+        textdata4.setText(String.valueOf(AdminController.getDivision()));
+    }
+
     @FXML
     private void initialize() {
         if(account.getAvatar() != null) {
@@ -221,18 +232,89 @@ public class SettingController {
             });
         } else {
             ImgOpen.setImage(new Image(String.valueOf(Objects.requireNonNull(getClass().getResource("/project/app/List-Users.png")))));
-            textSub.setText("Aplikasi Monitoring Karyawan | Develop by Farouq Mulya");
-            texth2.setText("Log Dashboard Admin");
-            textlabel1.setText("Tanggal Aktif");
-            textlabel2.setText("Terakhir Masuk");
-            textlabel3.setText("Terakhir Keluar");
-            textlabel4.setText("Durasi Aktif");
+            textSub.setText(SettingHelper.getAppName() + " | Develop by Farouq Mulya");
+
+            adminData();
 
             menuNode("Pengaturan Aplikasi", () -> {
+                formContainer.getChildren().clear();
+                textLabelForm.setText("Ubah Pengaturan Aplikasi");
+                modalTask();
 
+                data = new LinkedHashMap<>();
+                data.put("AppName", new String[]{"Nama Aplikasi", SettingHelper.getAppName(), ""});
+                data.put("ClockIn", new String[]{"Jam Masuk", String.valueOf(SettingHelper.valClockIn()), ""});
+                data.put("ClockOut", new String[]{"Jam Pulang", String.valueOf(SettingHelper.valClockOut()), ""});
+
+                VBox formLayout = generateForm(data);
+
+                Button submitButton = new Button("Submit");
+                submitButton.setMaxWidth(Double.MAX_VALUE);
+                VBox.setVgrow(submitButton, Priority.ALWAYS);
+                submitButton.setStyle("-fx-background-color: #396AFC; -fx-background-radius: 5;");
+                submitButton.setPadding(new Insets(10));
+                submitButton.setTextFill(javafx.scene.paint.Color.WHITE);
+                submitButton.setOnAction(event -> {
+                    // Update the data map with the TextField values
+                    for (Map.Entry<String, String[]> entry : data.entrySet()) {
+                        String fieldName = entry.getKey();
+                        TextField textField = (TextField) formLayout.lookup("#" + fieldName);
+                        String[] fieldData = entry.getValue();
+                        fieldData[2] = textField.getText();
+                    }
+
+                    // Customization: Perform actions on form submission
+                    System.out.println("Form submitted!");
+                    System.out.println("Nama Aplikasi: " + data.get("AppName")[2]);
+                    System.out.println("Jam Masuk: " + data.get("ClockIn")[2]);
+                    System.out.println("Jam Pulang: " + data.get("ClockOut")[2]);
+
+                    try {
+                        String updateQuery = "UPDATE settings SET value = ? WHERE name = ?";
+                        PreparedStatement stmt = conn.prepareStatement(updateQuery);
+
+                        // Create a list of updates
+                        List<Map<String, String>> updates = new ArrayList<>();
+                        updates.add(Map.of("name", "AppName", "value", data.get("AppName")[2]));
+                        updates.add(Map.of("name", "ClockIn", "value", data.get("ClockIn")[2]));
+                        updates.add(Map.of("name", "ClockOut", "value", data.get("ClockOut")[2]));
+
+                        // Iterate over the updates and execute the update query
+                        for (Map<String, String> update : updates) {
+                            stmt.setString(1, update.get("value"));
+                            stmt.setString(2, update.get("name"));
+                            stmt.executeUpdate();
+                        }
+                        modalTask();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Berhasil Ubah Pengaturan");
+                        alert.showAndWait();
+                        System.out.println("Updates successfully executed.");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                formContainer.getChildren().addAll(formLayout, submitButton);
+                formContainer.setSpacing(10);
             });
-            menuNode("Pengaturan Divisi & Salary", () -> {
+            menuNode("Daftar Divisi & Salary", () -> {
+                formContainer.getChildren().clear();
+                formContainer.setSpacing(10);
+                textLabelForm.setText("Daftar Divisi");
+                modalTask();
 
+                getDivisionList();
+            });
+
+            menuNode("Tambah Divisi", () -> {
+                formContainer.getChildren().clear();
+                formContainer.setSpacing(10);
+                textLabelForm.setText("Tambah Divisi");
+                addDivision();
+                modalTask();
             });
 
             openHome.setOnAction(e -> {
@@ -306,12 +388,27 @@ public class SettingController {
                     fieldData[2] = textField.getText();
                 }
 
-                // Customization: Perform actions on form submission
-                System.out.println("Form submitted!");
-                System.out.println("First Name: " + data.get("first_name")[2]);
-                System.out.println("Last Name: " + data.get("last_name")[2]);
-                System.out.println("Phone: " + data.get("phone")[2]);
-                System.out.println("Email: " + data.get("email")[2]);
+                try {
+                    String query = "UPDATE users SET first_name = ?, last_name = ?,  phone = ?, email = ? WHERE id = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, data.get("first_name")[2]);
+                    stmt.setString(2, data.get("last_name")[2]);
+                    stmt.setString(3, data.get("phone")[2]);
+                    stmt.setString(4, data.get("email")[2]);
+                    stmt.setInt(5, account.getId());
+                    int rowsAffected = stmt.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        modalTask();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Berhasil");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Berhasil Ubah Data");
+                        alert.showAndWait();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
             formContainer.getChildren().addAll(formLayout, submitButton);
@@ -328,7 +425,7 @@ public class SettingController {
             passwordVBox.getChildren().addAll(passwordLabel, passwordField);
 
             VBox confirmVBox = new VBox();
-            Label confirmLabel = new Label("Confirm Password:");
+            Label confirmLabel = new Label("Konfirmasi Password:");
             PasswordField confirmField = new PasswordField();
             confirmVBox.getChildren().addAll(confirmLabel, confirmField);
 
@@ -343,13 +440,32 @@ public class SettingController {
                 String confirm = confirmField.getText();
 
                 if (password.equals(confirm)) {
-                    System.out.println("Password Sama bang :''Vv");
+                    String encryptedPassword = LoginController.encryptPassword(confirm);
+                    System.out.println(encryptedPassword);
+                    try {
+                        String query = "UPDATE users SET password = ? WHERE id = ?";
+                        PreparedStatement stmt = conn.prepareStatement(query);
+                        stmt.setString(1, encryptedPassword);
+                        stmt.setInt(2, account.getId());
+                        int rowsAffected = stmt.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            modalTask();
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Berhasil");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Berhasil Ubah Password!");
+                            alert.showAndWait();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 } else {
                     // Passwords do not match, show a popup to re-enter
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText(null);
-                    alert.setContentText("Passwords do not match. Please re-enter.");
+                    alert.setContentText("Password Tidak Sama!!");
                     alert.showAndWait();
                 }
             });
@@ -364,6 +480,156 @@ public class SettingController {
 
         closeTask.setOnAction(e -> {
             modalTask();
+        });
+    }
+
+    public void addDivision() {
+        data = new LinkedHashMap<>();
+        data.put("name", new String[]{"Nama Divisi", "", ""});
+        data.put("start_salary", new String[]{"Gaji Utama", "", ""});
+        data.put("daily_bonus", new String[]{"Bonus Harian", "", ""});
+
+        VBox formLayout = generateForm(data);
+
+        Button submitButton = new Button("Submit");
+        submitButton.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(submitButton, Priority.ALWAYS);
+        submitButton.setStyle("-fx-background-color: #396AFC; -fx-background-radius: 5;");
+        submitButton.setPadding(new Insets(10));
+        submitButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        submitButton.setOnAction(event -> {
+            // Update the data map with the TextField values
+            for (Map.Entry<String, String[]> entry : data.entrySet()) {
+                String fieldName = entry.getKey();
+                TextField textField = (TextField) formLayout.lookup("#" + fieldName);
+                String[] fieldData = entry.getValue();
+                fieldData[2] = textField.getText();
+            }
+
+            try {
+                String query = "INSERT INTO division (name, start_salary, daily_bonus) VALUES (?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, data.get("name")[2]);
+                stmt.setString(2, data.get("start_salary")[2]);
+                stmt.setString(3, data.get("daily_bonus")[2]);
+
+                int rowsAffected = stmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    modalTask();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Berhasil");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Berhasil Tambah Divisi " + data.get("name")[2]);
+                    alert.showAndWait();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        formContainer.getChildren().addAll(formLayout, submitButton);
+        formContainer.setSpacing(10);
+    }
+
+    public void updateDivision(int Id, String name, int salary, int bonus) {
+        data = new LinkedHashMap<>();
+        data.put("name", new String[]{"Nama Divisi", name, ""});
+        data.put("start_salary", new String[]{"Gaji Utama", String.valueOf(salary), ""});
+        data.put("daily_bonus", new String[]{"Bonus Harian", String.valueOf(bonus), ""});
+
+        VBox formLayout = generateForm(data);
+
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(cancelButton, Priority.ALWAYS);
+        cancelButton.setStyle("-fx-background-color: #FBA017; -fx-background-radius: 5;");
+        cancelButton.setPadding(new Insets(10));
+        cancelButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        cancelButton.setOnAction(event -> {
+            formContainer.getChildren().clear();
+            textLabelForm.setText("Daftar Divisi");
+            getDivisionList();
+
+        });
+
+        Button submitButton = new Button("Submit");
+        submitButton.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(submitButton, Priority.ALWAYS);
+        submitButton.setStyle("-fx-background-color: #396AFC; -fx-background-radius: 5;");
+        submitButton.setPadding(new Insets(10));
+        submitButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        submitButton.setOnAction(event -> {
+            // Update the data map with the TextField values
+            for (Map.Entry<String, String[]> entry : data.entrySet()) {
+                String fieldName = entry.getKey();
+                TextField textField = (TextField) formLayout.lookup("#" + fieldName);
+                String[] fieldData = entry.getValue();
+                fieldData[2] = textField.getText();
+            }
+
+            try {
+                String query = "UPDATE division SET name = ?, start_salary = ?, daily_bonus = ? WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, data.get("name")[2]);
+                stmt.setString(2, data.get("start_salary")[2]);
+                stmt.setString(3, data.get("daily_bonus")[2]);
+                stmt.setInt(4, Id);
+
+                int rowsAffected = stmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    modalTask();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Berhasil");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Berhasil Update Divisi " + data.get("name")[2]);
+                    alert.showAndWait();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        formContainer.getChildren().clear();
+        formContainer.getChildren().addAll(formLayout, submitButton, cancelButton);
+        formContainer.setSpacing(10);
+    }
+
+    public void deleteDivision(int id) {
+        System.out.println("Delete Divisi ID: " + id);
+
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationDialog.setTitle("Confirmation");
+        confirmationDialog.setHeaderText(null);
+        confirmationDialog.setContentText("Hapus Divisi?");
+
+        ButtonType yesButton = new ButtonType("Ya");
+        ButtonType noButton = new ButtonType("Tidak");
+        confirmationDialog.getButtonTypes().setAll(yesButton, noButton);
+
+        confirmationDialog.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == yesButton) {
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = null;
+
+                try {
+                    String query = "DELETE FROM division WHERE id = ?";
+                    stmt = conn.prepareStatement(query);
+                    stmt.setInt(1, id);
+                    int rowsAffected = stmt.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("Divisi Berhasil Dihapus.");
+                    } else {
+                        System.out.println("Divisi Gagal Dihapus.");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                modalTask();
+            } else {
+                System.out.println("Deletion canceled");
+            }
         });
     }
 
@@ -407,6 +673,73 @@ public class SettingController {
 
         hbox.getChildren().addAll(btn);
         containerSetting.getChildren().add(hbox);
+    }
+
+    private void getDivisionList() {
+        try {
+            String query = "SELECT * FROM division";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idDivision = rs.getInt("id");
+                String nameDivision = rs.getString("name");
+                int startSalary = rs.getInt("start_salary");
+                int dailyBonus = rs.getInt("daily_bonus");
+                generateListDivision(idDivision, nameDivision, startSalary, dailyBonus);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void generateListDivision(int idDivision, String nameDivision, int startSalary, int dailyBonus) {
+        VBox itemDivision = new VBox();
+        itemDivision.setSpacing(5);
+        itemDivision.setPadding(new Insets(8, 0, 8, 24));
+        itemDivision.setStyle("-fx-border-color: #396AFC; -fx-border-width: 0 0 0 4;");
+
+        HBox hbox1 = new HBox();
+        Text text = new Text(nameDivision);
+        text.setFont(Font.font("Roboto", FontWeight.BOLD, 16));
+        text.setFill(Color.web("#3B415A"));
+        HBox hbox2 = new HBox();
+        HBox.setHgrow(text, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(hbox2, javafx.scene.layout.Priority.ALWAYS);
+        hbox2.setAlignment(Pos.CENTER_RIGHT);
+        hbox2.setSpacing(5);
+
+        Button ubahButton = new Button("Ubah");
+        ubahButton.setStyle("-fx-background-color: #FBA017; -fx-cursor: hand; -fx-text-fill: white; -fx-font-family: 'Roboto'; -fx-font-size: 12px; -fx-font-weight: bold;");
+        ubahButton.setOnAction(event -> {
+            textLabelForm.setText("Ubah Divisi");
+            updateDivision(idDivision, nameDivision, startSalary, dailyBonus);
+        });
+        Button hapusButton = new Button("Hapus");
+        hapusButton.setStyle("-fx-background-color: #E10000; -fx-cursor: hand; -fx-text-fill: white; -fx-font-family: 'Roboto'; -fx-font-size: 12px; -fx-font-weight: bold;");
+        hapusButton.setOnAction(event -> {
+            deleteDivision(idDivision);
+        });
+
+        hbox2.getChildren().addAll(ubahButton, hapusButton);
+        hbox1.getChildren().addAll(text, hbox2);
+
+        HBox hbox3 = new HBox();
+        hbox3.setSpacing(1);
+
+        Text gajiUtamaLabel = new Text("Gaji Utama");
+        gajiUtamaLabel.setStyle("-fx-text-fill: #9C9C9C; -fx-font-size: 12px; -fx-font-family: 'Roboto Medium';");
+        Text gajiUtamaValue = new Text(": " + formatIDR(startSalary));
+        gajiUtamaValue.setStyle("-fx-text-fill: #9C9C9C; -fx-font-size: 12px; -fx-font-family: 'Roboto Light'; ");
+        Text bonusHarianLabel = new Text("+ Bonus Harian");
+        bonusHarianLabel.setStyle("-fx-text-fill: #9C9C9C; -fx-font-size: 12px; -fx-font-family: 'Roboto Medium';");
+        Text bonusHarianValue = new Text(": " + formatIDR(dailyBonus));
+        bonusHarianValue.setStyle("-fx-text-fill: #9C9C9C; -fx-font-size: 12px; -fx-font-family: 'Roboto Light';");
+
+        hbox3.getChildren().addAll(gajiUtamaLabel, gajiUtamaValue, bonusHarianLabel, bonusHarianValue);
+
+        itemDivision.getChildren().addAll(hbox1, hbox3);
+        formContainer.getChildren().add(itemDivision);
     }
 
     private VBox generateForm(Map<String, String[]> data) {

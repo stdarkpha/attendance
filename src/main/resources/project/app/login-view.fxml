@@ -62,11 +62,6 @@
             </PasswordField>
          </VBox>
          <VBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="84.0" prefHeight="64.0" prefWidth="370.0">
-            <Label style="-fx-text-fill: #001AB1;" text="Lupa Password" textFill="#a5add0">
-               <font>
-                  <Font name="Roboto bold" size="12.0" />
-               </font>
-            </Label>
             <Button fx:id="loginButton" prefHeight="37.0" prefWidth="370.0" style="-fx-background-color: #396AFC; -fx-background-radius: 5px; -fx-text-fill: #fff;" text="Masuk">
                <VBox.margin>
                   <Insets top="10.0" />

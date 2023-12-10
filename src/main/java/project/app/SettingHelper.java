@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 
 public class SettingHelper {
-    public String getAppName() {
+    public static String getAppName() {
         return getValueByName("AppName");
     }
 
-    public LocalTime getClockIn() {
+    public static LocalTime getClockIn() {
         String clockInString = getValueByName("ClockIn");
         String[] components = clockInString.split(":");
         int hour = Integer.parseInt(components[0]);
@@ -20,7 +20,20 @@ public class SettingHelper {
         return LocalTime.of(hour, minute, second);
     }
 
-    public String getClockOut() {
+    public static LocalTime getClockOut() {
+        String clockInString = getValueByName("ClockOut");
+        String[] components = clockInString.split(":");
+        int hour = Integer.parseInt(components[0]);
+        int minute = Integer.parseInt(components[1]);
+        int second = Integer.parseInt(components[2]);
+        return LocalTime.of(hour, minute, second);
+    }
+
+    public static String valClockIn() {
+        return getValueByName("ClockIn");
+    }
+
+    public static String valClockOut() {
         return getValueByName("ClockOut");
     }
 
@@ -28,7 +41,7 @@ public class SettingHelper {
         return getValueByName("LogoApp");
     }
 
-    private String getValueByName(String name) {
+    private static String getValueByName(String name) {
         Connection conn = DBConnection.getConnection();
         try {
             String query = "SELECT value FROM settings WHERE name = ?";
