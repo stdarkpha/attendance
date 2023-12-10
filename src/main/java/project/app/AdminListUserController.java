@@ -32,14 +32,17 @@ import java.util.Random;
 public class AdminListUserController {
     private final MainApp mainApp;
     private Parent root;
+    private Account account;
     private static String operationType;
     private Map<String, Integer> divisionMap = new HashMap<>();
     private Map<Integer, String> reverseDivisionMap = new HashMap<>();
 
     @FXML
     private AnchorPane ListUserContainer;
+
+    @FXML private Circle circleAvatar;
     @FXML
-    private Button openUser, openHome, buttonAddUser, closeTask, PushButton, btnLogout;
+    private Button openHome, openSetting, buttonAddUser, closeTask, PushButton, btnLogout;
 
     @FXML
     private VBox containerListUser;
@@ -61,8 +64,9 @@ public class AdminListUserController {
     @FXML
     private TextField firstName, lastName, phone, mail, password;
 
-    public AdminListUserController(MainApp mainApp) {
+    public AdminListUserController(MainApp mainApp, Account account) {
         this.mainApp = mainApp;
+        this.account = account;
         loadFXML();
     }
 
@@ -315,8 +319,8 @@ public class AdminListUserController {
                         + choiceDivision.getValue() + LoginController.encryptPassword(password.getText())
                 );
                 try {
-                    String query = "INSERT INTO users (uid, first_name, last_name, birth, phone, email, gender, division_id, password) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String query = "INSERT INTO users (uid, first_name, last_name, birth, phone, email, gender, division_id, password, avatar) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'avatar.png')";
                     stmt = conn.prepareStatement(query);
                     stmt.setInt(1, UID);
                     stmt.setString(2, firstName.getText());
@@ -439,10 +443,17 @@ public class AdminListUserController {
 
     @FXML
     private void initialize() {
+        if(account.getAvatar() != null) {
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(40);
+            imageView.setFitHeight(40);
+            circleAvatar.setFill(new ImagePattern(imageView.getImage()));
+        }
+
         String greeting = UiHelper.generateGreeting();
         String todayDate = UiHelper.generateDate();
-        // greetingText.setText(greeting + account.getFirstName() + "!");
-        greetingText.setText(greeting + "Administrator!");
+        greetingText.setText(greeting + account.getFirstName() + "!");
         dateToday.setText(todayDate);
 
         choiceGender.getItems().add("Laki-Laki");
@@ -454,23 +465,20 @@ public class AdminListUserController {
             setOperationType("add");
             modalTask();
         });
-
         closeTask.setOnAction(e -> {
             modalTask();
         });
-
         PushButton.setOnAction(e -> {
             submitUser();
         });
-
         btnLogout.setOnAction(e -> {
-            mainApp.navigation("logout");
+            mainApp.navigation(account, "logout");
         });
         openHome.setOnAction(e -> {
-            mainApp.navigation("home-admin");
+            mainApp.navigation(account,"home-admin");
         });
-        openUser.setOnAction(e -> {
-            mainApp.navigation("list-user");
+        openSetting.setOnAction(e -> {
+            mainApp.navigation(account, "setting");
         });
     }
 }

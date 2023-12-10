@@ -440,17 +440,17 @@ public class UserController {
         });
 
         btnLogout.setOnAction(e -> {
-            mainApp.navigationUser(account, "logout");
+            mainApp.navigation(account, "logout");
         });
 
         openHome.setOnAction(e -> {
-            mainApp.navigationUser(account, "");
+            mainApp.navigation(account, "");
         });
         openTask.setOnAction(e -> {
-            mainApp.navigationUser(account, "list-task");
+            mainApp.navigation(account, "list-task");
         });
         openSetting.setOnAction(e -> {
-            mainApp.navigationUser(account, "setting");
+            mainApp.navigation(account, "setting");
         });
 
         taskPushButton.setOnAction(e -> {

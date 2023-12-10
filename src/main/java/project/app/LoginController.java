@@ -62,17 +62,18 @@ public class LoginController {
         String password = passwordField.getText();
 
 //        Account account = login(username, password);
-        Account account = login("123", "admin123");
+        Account account = login("001", "admin123");
 
         if (account != null) {
             if (account.getRole().equals("admin")) {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigation("home-admin");
+//                mainApp.navigation("home-admin");
+                mainApp.navigation(account,"home-admin");
             } else {
                 usernameField.setText("");
                 passwordField.setText("");
-                mainApp.navigationUser(account,"");
+                mainApp.navigation(account,"setting");
             }
         } else {
             showErrorMessage();

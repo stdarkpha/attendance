@@ -151,9 +151,9 @@
                   </VBox>
                   <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="143.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="openTask" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                        <Button fx:id="openMiddle" mnemonicParsing="false" style="-fx-background-color: transparent;">
                            <graphic>
-                              <ImageView opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="ImgOpen" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@Activity.png" />
                                  </image>
@@ -196,7 +196,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fx:id="textLabelForm" fill="#4d4e66" strokeType="OUTSIDE" strokeWidth="0.0" text="Tambah Karyawan Baru" HBox.hgrow="ALWAYS">
+                              <Text fx:id="textLabelForm" fill="#4d4e66" strokeType="OUTSIDE" strokeWidth="0.0" text="Judul Form" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto Bold" size="14.0" />
                                  </font>
@@ -220,132 +220,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox spacing="15.0">
-                     <children>
-                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Depan">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="firstName">
-                                 <padding>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </padding>
-                              </TextField>
-                           </children>
-                        </VBox>
-                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama Belakang">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="lastName">
-                                 <padding>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </padding>
-                              </TextField>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <VBox layoutX="40.0" layoutY="258.0" spacing="5.0">
-                     <children>
-                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Tanggal Lahir">
-                           <font>
-                              <Font name="Roboto Light" size="14.0" />
-                           </font>
-                        </Text>
-                        <DatePicker fx:id="birthDate" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
-                     </children>
-                  </VBox>
-                  <HBox spacing="15.0">
-                     <children>
-                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Telepon">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="phone">
-                                 <padding>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </padding>
-                              </TextField>
-                           </children>
-                        </VBox>
-                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="mail">
-                                 <padding>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </padding>
-                              </TextField>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox spacing="15.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Jenis Kelamin">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <ChoiceBox fx:id="choiceGender" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisi">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Text>
-                              <ChoiceBox fx:id="choiceDivision" prefHeight="25.0" prefWidth="370.0" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Text fill="#9c9c9c" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
-                           <font>
-                              <Font name="Roboto Light" size="14.0" />
-                           </font>
-                        </Text>
-                        <PasswordField fx:id="password" />
-                     </children>
-                  </VBox>
-                  <HBox fx:id="btnContainer" alignment="CENTER_RIGHT" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="PushButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="376.0" style="-fx-background-color: #3665F0; -fx-background-radius: 5;" text="Simpan Data" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font name="Roboto Medium" size="14.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="8.0" left="12.0" right="12.0" top="8.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </HBox>
+                  <VBox fx:id="formContainer" />
                </children>
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

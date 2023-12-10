@@ -186,13 +186,13 @@ public class ListTaskController {
         dateToday.setText(todayDate);
 
         btnLogout.setOnAction(e -> {
-            mainApp.navigation("logout");
+            mainApp.navigation(account,"logout");
         });
         openHome.setOnAction(e -> {
-            mainApp.navigationUser(account, "");
+            mainApp.navigation(account, "");
         });
         openSetting.setOnAction(e -> {
-            mainApp.navigationUser(account, "setting");
+            mainApp.navigation(account, "setting");
         });
     }
 }

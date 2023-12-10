@@ -51,6 +51,9 @@ public class Account {
     public String getFirstName() {
         return firstName;
     }
+    public String getLastName() {
+        return lastName;
+    }
 
     public String getPhone() {
         return phone;
@@ -83,6 +86,8 @@ public class Account {
     public String getDivisionVal() {
         return reverseDivisionMap.get(divisionId);
     }
+
+    public int getDivisionId() { return divisionId; }
 
     public void addDivisionOption() {
         Connection conn = DBConnection.getConnection();

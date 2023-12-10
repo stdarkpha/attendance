@@ -41,31 +41,7 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    public void navigation(String menu) {
-        switch (menu) {
-            case "home-admin":
-                AdminController adminController = new AdminController(this);
-                adminController.showScene();
-                break;
-            case "list-user":
-                AdminListUserController adminListUserController = new AdminListUserController(this);
-                adminListUserController.showScene();
-                break;
-//            case "setting":
-//                SettingController settingController = new SettingController(this);
-//                settingController.showScene();
-//                break;
-            case "logout":
-                this.primaryStage.setTitle("Aplikasi Kehadiran | Build v.1.0");
-                loginController.showScene();
-                this.account = null;
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void navigationUser(Account account, String menu) {
+    public void navigation(Account account, String menu) {
         String fullName = account.getFullName();
 
         switch (menu) {
@@ -82,6 +58,14 @@ public class MainApp extends Application {
             case "setting":
                 SettingController settingController = new SettingController(this, account);
                 settingController.showScene();
+                break;
+            case "home-admin":
+                AdminController adminController = new AdminController(this, account);
+                adminController.showScene();
+                break;
+            case "list-user":
+                AdminListUserController adminListUserController = new AdminListUserController(this, account);
+                adminListUserController.showScene();
                 break;
             default:
                 UserController userController = new UserController(this, account);

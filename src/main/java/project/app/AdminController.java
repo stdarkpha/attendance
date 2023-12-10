@@ -8,8 +8,12 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.sql.Connection;
@@ -19,7 +23,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Objects;
 
 import javafx.scene.chart.XYChart;
 
@@ -27,6 +31,7 @@ public class AdminController {
 
     private final MainApp mainApp;
     private Parent root;
+    private Account account;
 
     @FXML
     private AnchorPane adminContainer;
@@ -39,20 +44,19 @@ public class AdminController {
     private Text textCountMonth, textInMonth, textOutMonth, textLateMonth;
     @FXML
     private Text textCountYear, textInYear, textOutYear, textLateYear;
-
+    @FXML private Circle circleAvatar;
     @FXML
     private NumberAxis todayX, todayY;
-
     @FXML
-    private Button openUser, openHome, btnLogout;
-
+    private Button openHome, openMiddle, openSetting, btnLogout;
     @FXML
     private VBox todayChart, monthChart, yearChart;
 
     UiHelper uiHelper = new UiHelper();
 
-    public AdminController(MainApp mainApp) {
+    public AdminController(MainApp mainApp, Account account) {
         this.mainApp = mainApp;
+        this.account = account;
         loadFXML();
     }
 
@@ -311,10 +315,17 @@ public class AdminController {
 
     @FXML
     private void initialize() {
+        if(account.getAvatar() != null) {
+            Image image = new Image(Objects.requireNonNull(getClass().getResource("/project/app/" + account.getAvatar())).toExternalForm());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(40);
+            imageView.setFitHeight(40);
+            circleAvatar.setFill(new ImagePattern(imageView.getImage()));
+        }
+
         String greeting = UiHelper.generateGreeting();
         String todayDate = UiHelper.generateDate();
-        // greetingText.setText(greeting + account.getFirstName() + "!");
-        greetingText.setText(greeting + "Administrator!");
+        greetingText.setText(greeting + account.getFirstName() + "!");
         dateToday.setText(todayDate);
 
         textTotalEmployee.setText(String.valueOf(getEmployees()));
@@ -337,16 +348,17 @@ public class AdminController {
         textOutYear.setText(UiHelper.timeFormat(String.valueOf(result.get("averageClockOutYear"))));
         textLateYear.setText(String.valueOf(result.get("lateCountYear")));
 
-//        System.out.println(result);
-
         btnLogout.setOnAction(e -> {
-            mainApp.navigation("logout");
+            mainApp.navigation(account,"logout");
         });
         openHome.setOnAction(e -> {
-            mainApp.navigation("home-admin");
+            mainApp.navigation(account,"home-admin");
         });
-        openUser.setOnAction(e -> {
-            mainApp.navigation("list-user");
+        openMiddle.setOnAction(e -> {
+            mainApp.navigation(account,"list-user");
+        });
+        openSetting.setOnAction(e -> {
+            mainApp.navigation(account, "setting");
         });
 
     }
