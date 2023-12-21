@@ -61,15 +61,15 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        Account account = login(username, password);
-//        Account account = login("001", "admin123");
+//        Account account = login(username, password);
+        Account account = login("001", "admin123");
 
         if (account != null) {
             if (account.getRole().equals("admin")) {
                 usernameField.setText("");
                 passwordField.setText("");
 //                mainApp.navigation("home-admin");
-                mainApp.navigation(account,"home-admin");
+                mainApp.navigation(account,"list-user");
             } else {
                 usernameField.setText("");
                 passwordField.setText("");

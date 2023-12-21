@@ -69,17 +69,33 @@ public class AdminController {
 
             String chartName = "yearChart";
             String seriesName = "Grafik Absen Masuk Tahunan";
-            String query = "SELECT clock_in, COUNT(*) AS total_count FROM log_user GROUP BY clock_in ORDER BY clock_in ASC";
+            //String query = "SELECT clock_in, COUNT(*) AS total_count FROM log_user GROUP BY clock_in ORDER BY clock_in ASC";
+            String query = "SELECT clock_in, COUNT(*) AS total_count\n" +
+                    "FROM (\n" +
+                    "    SELECT CONCAT(HOUR(clock_in), ':', LPAD(FLOOR(MINUTE(clock_in) / 15) * 15, 2, '0'), ' - ', \n" +
+                    "                  HOUR(clock_in) + CASE WHEN FLOOR(MINUTE(clock_in) / 15 + 1) * 15 = 60 THEN 1 ELSE 0 END, \n" +
+                    "                  ':', \n" +
+                    "                  LPAD(CASE WHEN FLOOR(MINUTE(clock_in) / 15 + 1) * 15 = 60 THEN 0 ELSE FLOOR(MINUTE(clock_in) / 15 + 1) * 15 END, 2, '0')) AS clock_in\n" +
+                    "    FROM log_user\n" +
+                    ") AS subquery\n" +
+                    "GROUP BY clock_in\n" +
+                    "ORDER BY clock_in";
             createLineChart(chartName, seriesName, query, loader);
 
             // Month Query
             chartName = "monthChart";
             seriesName = "Grafik Absen Masuk Bulanan";
-            query = "SELECT clock_in, COUNT(*) AS total_count \n" +
-                    "FROM log_user \n" +
-                    "WHERE DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m') \n" +
-                    "GROUP BY clock_in \n" +
-                    "ORDER BY clock_in ASC;";
+            query = "SELECT clock_in, COUNT(*) AS total_count\n" +
+                    "FROM (\n" +
+                    "    SELECT CONCAT(HOUR(clock_in), ':', LPAD(FLOOR(MINUTE(clock_in) / 15) * 15, 2, '0'), ' - ', \n" +
+                    "                  HOUR(clock_in) + CASE WHEN FLOOR(MINUTE(clock_in) / 15 + 1) * 15 = 60 THEN 1 ELSE 0 END, \n" +
+                    "                  ':', \n" +
+                    "                  LPAD(CASE WHEN FLOOR(MINUTE(clock_in) / 15 + 1) * 15 = 60 THEN 0 ELSE FLOOR(MINUTE(clock_in) / 15 + 1) * 15 END, 2, '0')) AS clock_in\n" +
+                    "    FROM log_user\n" +
+                    "    WHERE DATE_FORMAT(date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')\n" +
+                    ") AS subquery\n" +
+                    "GROUP BY clock_in\n" +
+                    "ORDER BY clock_in";
             createLineChart(chartName, seriesName, query, loader);
 
             // Today Query
@@ -126,7 +142,8 @@ public class AdminController {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String clockIn = UiHelper.timeFormat(rs.getString("clock_in"));
+                //String clockIn = UiHelper.timeFormat(rs.getString("clock_in"));
+                String clockIn = rs.getString("clock_in");
                 int totalCount = rs.getInt("total_count");
                 dataSeries.getData().add(new XYChart.Data<>(clockIn, totalCount));
             }

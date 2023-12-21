@@ -27,7 +27,7 @@ public class MainApp extends Application {
 
         loginController.showScene();
         // Bypass Login
-//        loginController.performLogin();
+        loginController.performLogin();
 
         primaryStage.show();
     }

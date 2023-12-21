@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.StrokeType;
@@ -31,6 +34,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class AdminListUserController {
+    Connection conn = DBConnection.getConnection();
     private final MainApp mainApp;
     private Parent root;
     private Account account;
@@ -155,8 +159,33 @@ public class AdminListUserController {
         transition.play();
     }
 
+    public int getTotalWorkHours(int id) {
+        int totalWorkHours = 0;
+        try {
+            String query = "SELECT user_id, " +
+                    "       SUM(TIME_TO_SEC(TIMEDIFF(clock_out, clock_in))) / 3600 AS total_work_hours " +
+                    "FROM log_user " +
+                    "WHERE user_id = " + id +
+                    "      AND MONTH(date) = MONTH(CURRENT_DATE()) " +
+                    "      AND YEAR(date) = YEAR(CURRENT_DATE()) " +
+                    "GROUP BY user_id";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                totalWorkHours = rs.getInt("total_work_hours");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalWorkHours;
+    }
+
     public void getDataEmployees() {
-        Connection conn = DBConnection.getConnection();
+
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -179,6 +208,15 @@ public class AdminListUserController {
                 String gender = rs.getString("gender");
                 Date birth = rs.getDate("birth");
 
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setColor(Color.rgb(29, 35, 165, 0.1));
+                dropShadow.setBlurType(BlurType.GAUSSIAN);
+                dropShadow.setRadius(12);
+                dropShadow.setOffsetY(5);
+
+                VBox vboxContainer = new VBox();
+                vboxContainer.setEffect(dropShadow);
+
                 HBox hbox = new HBox();
                 hbox.setAlignment(Pos.CENTER_LEFT);
                 hbox.setPrefWidth(200.0);
@@ -186,9 +224,6 @@ public class AdminListUserController {
                 hbox.setPadding(new Insets(14, 14, 14, 14));
                 hbox.setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 5;");
 
-                hbox.setOnMouseClicked(e -> {
-                    System.out.println(userId + uid + first_name + last_name);
-                });
 
                 Circle circleAvatar = new Circle(20.0, Color.web("#ebebeb"));
                 circleAvatar.setStroke(Color.BLACK);
@@ -216,6 +251,7 @@ public class AdminListUserController {
                 VBox vbox = new VBox();
                 vbox.setAlignment(Pos.CENTER_LEFT);
                 vbox.setSpacing(2.0);
+                vbox.setCursor(Cursor.cursor("hand"));
                 HBox.setHgrow(vbox, Priority.ALWAYS);
 
                 Text textName = new Text(first_name + " " + last_name);
@@ -275,7 +311,75 @@ public class AdminListUserController {
                 hboxButtons.getChildren().addAll(editButton, trashButton);
                 hbox.getChildren().addAll(circleAvatar, vbox, hboxButtons);
 
-                containerListUser.getChildren().add(hbox);
+                VBox grade = new VBox();
+                grade.setAlignment(Pos.CENTER_LEFT);
+                grade.setSpacing(2.0);
+                grade.setStyle("-fx-background-color: #f8f8f8; -fx-padding: 10 20; -fx-border-color: #396AFC; -fx-border-width: 0 0 0 5;");
+
+                Text gradeText = new Text("Data Absensi dan Grade Karyawan");
+                gradeText.setStrokeType(StrokeType.OUTSIDE);
+                gradeText.setStrokeWidth(0.0);
+                gradeText.setFont(Font.font("Roboto Medium", 14.0));
+                Map<String, Object> result = LogHelper.totalWork(userId);
+                int UserDayWork = (int) result.get("count");
+                int DayWork = LogHelper.DayWork();
+                int late = (int) result.get("lateCount");
+                int workHourTotal = getTotalWorkHours(userId);
+                int minWorkHour = DayWork*8;
+
+                Text totalDayWork = new Text("Total Masuk = "+ UserDayWork +"/" + DayWork + " Hari");
+                Text totalWorkHours = new Text("Total Jam Kerja = " + workHourTotal + "Jam (Minimum: " +(DayWork*8)+ "Jam)");
+                Text totalPresent = new Text("Kehadiran = " + (DayWork - late) + "/" + DayWork +" Hari (Tidak Terlambat)");
+
+                double workPercent = (double) UserDayWork / DayWork * 100;
+                double limitedWorkPoint = Math.min(workPercent, 100);
+                int workPoint = (int) (limitedWorkPoint * 0.4);
+
+                double hourPercent = (double) workHourTotal / minWorkHour * 100;
+                double limitedHourPoint = Math.min(hourPercent, 100);
+                int hourPoint = (int) (limitedHourPoint * 0.4);
+
+                double presentPercent = (double) (DayWork - late) / DayWork * 100;
+                double limitedPresentPoint = Math.min(presentPercent, 100);
+                System.out.println("present"+limitedPresentPoint);
+                int presentPoint = (int) (limitedPresentPoint * 0.2);
+
+                int score = workPoint + hourPoint + presentPoint;
+
+                if(UserDayWork != 0) {
+                    String gradeUser = "";
+                    if(score >= 95) {
+                        gradeUser = "A("+score+"%), Karyawan Berkomitmen";
+                    } else if (score >= 90) {
+                        gradeUser = "B("+score+"%), Harap Ditingkatkan";
+                    } else {
+                        gradeUser = "C("+score+"%), Karyawan Tidak Komitmen";
+                    }
+                    Text gradeFinal = new Text("Grade " + gradeUser);
+                    gradeFinal.setFill(Color.web("#396AFC"));
+
+                    grade.getChildren().addAll(gradeText, totalDayWork, totalWorkHours, totalPresent, gradeFinal);
+                    System.out.println((workPoint + hourPoint + presentPoint) + "%");
+                } else {
+                    Text other = new Text("Penilaian dapat dilihat setelah satu bulan kerja");
+                    grade.getChildren().addAll(gradeText, other);
+                }
+
+                grade.setVisible(false);
+                grade.setManaged(false);
+
+                final boolean[] isGradeVisible = {false};
+                hbox.setOnMouseClicked(e -> {
+                    System.out.println(userId + uid + first_name + last_name);
+                    isGradeVisible[0] = !isGradeVisible[0]; // Toggle the visibility state
+                    grade.setVisible(isGradeVisible[0]);
+                    grade.setManaged(grade.isVisible());
+
+                });
+
+                vboxContainer.getChildren().addAll(hbox, grade);
+
+                containerListUser.getChildren().add(vboxContainer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -283,7 +387,7 @@ public class AdminListUserController {
     }
 
     public void addDivisionOption() {
-        Connection conn = DBConnection.getConnection();
+
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -308,7 +412,7 @@ public class AdminListUserController {
     }
 
     public void submitUser() {
-        Connection conn = DBConnection.getConnection();
+
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -426,7 +530,7 @@ public class AdminListUserController {
 
         confirmationDialog.showAndWait().ifPresent(buttonType -> {
             if (buttonType == yesButton) {
-                Connection conn = DBConnection.getConnection();
+
                 PreparedStatement stmt = null;
 
                 try {
