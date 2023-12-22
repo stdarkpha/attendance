@@ -17,7 +17,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.0");
+        this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.4");
         Image iconImage = new Image(Objects.requireNonNull(getClass().getResource("/project/app/upj.png")).toExternalForm());
         this.primaryStage.getIcons().add(iconImage);
         Scene scene = new Scene(new AnchorPane());
@@ -27,7 +27,7 @@ public class MainApp extends Application {
 
         loginController.showScene();
         // Bypass Login
-        loginController.performLogin();
+//        loginController.performLogin();
 
         primaryStage.show();
     }
@@ -45,7 +45,7 @@ public class MainApp extends Application {
         // Program Router
         switch (menu) {
             case "logout":
-                this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.0");
+                this.primaryStage.setTitle(SettingHelper.getAppName() + " | Build v.1.4");
                 loginController.showScene();
                 this.account = null;
                 break;
