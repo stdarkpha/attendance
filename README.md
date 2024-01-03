@@ -10,6 +10,12 @@ organisasi secara digital.
 
 ## Cara Install
 
+Clone Repository Ini
+
+```bash
+  git clone https://github.com/stdarkpha/attendance/
+```
+
 Download JRE 21 & Laragon
 
 ```bash
@@ -20,14 +26,14 @@ Install Kedua Program Tersebut
 
 Jalankan Services Laragon
 
-Clone Repository Ini
+Import Database Pada Folder ini
 
 ```bash
-  git clone https://github.com/stdarkpha/attendance/
+  https://github.com/stdarkpha/attendance/tree/main/out/artifacts/attendance_jar
 ```
 
 Jalankan File yang sudah dicompile
-
+* [Download Compiled File](https://github.com/stdarkpha/attendance/blob/main/out/artifacts/attendance_jar/attendancev.1.4.exe)
 
 ## Authors & Developer
 
