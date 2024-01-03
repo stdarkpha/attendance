@@ -82,22 +82,22 @@ public class LogHelper {
     }
 
 //    Total Hari Kerja dalam sebulan (5 hari kerja)
-    public static int DayWork() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate firstDayOfMonth = currentDate.withDayOfMonth(1);
-        LocalDate lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+public static int DayWork() {
+    LocalDate currentDate = LocalDate.now();
+    LocalDate firstDayOfMonth = currentDate.withDayOfMonth(1);
+    LocalDate lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
 
-        int totalDays = (int) ChronoUnit.DAYS.between(firstDayOfMonth, lastDayOfMonth) + 1;
-        int excludedDays = 0;
+    int totalDays = (int) ChronoUnit.DAYS.between(firstDayOfMonth, lastDayOfMonth) + 1;
+    int excludedDays = 0;
 
-        for (LocalDate date = firstDayOfMonth; !date.isAfter(lastDayOfMonth); date = date.plusDays(1)) {
-            DayOfWeek dayOfWeek = date.getDayOfWeek();
-            if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.MONDAY) {
-                excludedDays++;
-            }
+    for (LocalDate date = firstDayOfMonth; !date.isAfter(lastDayOfMonth); date = date.plusDays(1)) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+            excludedDays++;
         }
-
-        return totalDays - excludedDays;
     }
+
+    return excludedDays;
+}
 
 }

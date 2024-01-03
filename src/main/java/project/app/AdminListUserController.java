@@ -327,6 +327,8 @@ public class AdminListUserController {
                 int workHourTotal = getTotalWorkHours(userId);
                 int minWorkHour = DayWork*8;
 
+                System.out.println("Day Work" + DayWork);
+
                 Text totalDayWork = new Text("Total Masuk = "+ UserDayWork +"/" + DayWork + " Hari");
                 Text totalWorkHours = new Text("Total Jam Kerja = " + workHourTotal + "Jam (Minimum: " +(DayWork*8)+ "Jam)");
                 Text totalPresent = new Text("Kehadiran = " + (DayWork - late) + "/" + DayWork +" Hari (Tidak Terlambat)");
@@ -348,7 +350,7 @@ public class AdminListUserController {
 
                 if(UserDayWork != 0) {
                     String gradeUser = "";
-                    if(score >= 95) {
+                    if(score > 95) {
                         gradeUser = "A("+score+"%), Karyawan Berkomitmen";
                     } else if (score >= 90) {
                         gradeUser = "B("+score+"%), Harap Ditingkatkan";
